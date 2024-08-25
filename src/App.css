@@ -1,0 +1,67 @@
+body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+}
+.nav {
+  --bs-breadcrumb-divider: ">";
+}
+
+.breadcrumb-item a {
+  text-decoration: none;
+  color: #5f6d7e;
+  font-size: 14px;
+}
+
+.breadcrumb-item a:hover {
+  color: #437ef7;
+}
+
+
+.btn-outline-secondary {
+  color: #272D37;
+}
+
+.userSection {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.10000000149011612px;
+  text-align: left;
+  color: #272D37;
+}
+
+.upgrade {
+  text-decoration: none;
+}
+
+
+
+.upContent {
+  color: #5F6D7E;
+}
+
+.graphicTitle {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #272D37;
+}
+
+a {
+  text-decoration: none;
+  color: #5F6D7E;
+
+}
+
+:root {
+  --svg-color: black;
+}
+
+body.dark-mode {
+  --svg-color: white;
+}
+
+.svg-icon {
+  fill: var(--svg-color);
+}
+ 
