@@ -135,7 +135,7 @@ function Nav({ handleopenDiv} ) {
 
             <button
               className="border-0 bg-transparent"
-          
+              onClick={handleopenDiv}
             >
               <img src="./img/search.svg" alt="search" width={22} height={22} />
             </button>
@@ -152,7 +152,7 @@ function Nav({ handleopenDiv} ) {
             </button>
             <button
               className="border-0 bg-transparent"
-           
+              onClick={handleopenDiv}
             >
               <img
                 src="./img/calendar.svg"
@@ -163,7 +163,7 @@ function Nav({ handleopenDiv} ) {
             </button>
             <button
               className="border-0 bg-transparent"
-          
+              onClick={handleopenDiv}
             >
               <img src="./img/alt.svg" alt="alt" width={22} height={22} />
             </button>
@@ -175,13 +175,13 @@ function Nav({ handleopenDiv} ) {
         >
           <button
             className="border-0 bg-transparent"
-        
+            onClick={handleopenDiv}
           >
             <img src="./img/ayarlar.svg" width={22} height={22} />
           </button>
           <button
             className="border-0 bg-transparent"
-        
+            onClick={handleopenDiv}
           >
             <img src="./img/cikis.svg" width={22} height={22} />
           </button>
