@@ -141,7 +141,7 @@ function Nav({ handleopenDiv} ) {
             </button>
             <button
               className="border-0 bg-transparent"
-            
+              onClick={handleopenDiv}
             >
               <img
                 src="./img/horizontal.svg"
@@ -152,7 +152,7 @@ function Nav({ handleopenDiv} ) {
             </button>
             <button
               className="border-0 bg-transparent"
-            onClick={handleopenDiv}
+           
             >
               <img
                 src="./img/calendar.svg"
@@ -834,7 +834,7 @@ function RecentTransactionsApps({
 
 function UserSectionDetail({ dark }) {
   return (
-    <div className="d-flex d-md-row p-0  ">
+    <div className="d-flex flex-wrap d-md-row p-0  ">
       <div className="row " style={{ gap: 16 }}>
         <div className="col">
           <LookscoutTeam dark={dark} />
