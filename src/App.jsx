@@ -27,14 +27,14 @@ export default function App() {
     let content = document.querySelector(".screen_side");
     sidenav.style.width = "250px";
     content.style.width = "calc(100% - 273px)";
-    sidenav.style.transition = "all .4s";
+    sidenav.style.transition = "all .2s";
   }
   function handleclosediv() {
     let sidenav = document.querySelector(".canvas");
     let content = document.querySelector("screen_side");
     sidenav.style.width = "0px";
     content.style.width = "calc(100% -1px)";
-    sidenav.style.transition = "all .4s";
+    sidenav.style.transition = "all .2s";
   }
 
   return (
@@ -45,7 +45,7 @@ export default function App() {
     >
       <div className="d-flex">
         <Nav handleopenDiv={handleopenDiv} setDark={setDark} dark={dark} />
-        <div>
+        <div className="canvas_all-list px-3 pt-3 d-flex flex-column justify-content-between">
           <div className="canvas_all d-none  d-lg-block border-end show">
             <SideNav
               handleclosediv={handleclosediv}
@@ -164,15 +164,13 @@ function Nav({ handleopenDiv,dark,setDark }) {
         <div className="sidebar-list__bottom d-flex flex-column gap-1 mt-auto">
           <button
             type="button"
-            className={`btn ${
-              dark ? "btn-outline-light" : "btn-outline-secondary"
-            }`}
+            className={`btn border-0`}
             onClick={() => setDark(!dark)}
           >
-            <svg
+            <svg 
               xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
+              width="24"
+              height="24"
               fill="currentColor"
               class="bi bi-brightness-high"
               viewBox="0 0 16 16"
@@ -198,11 +196,10 @@ function SideNav({ handleclosediv, handleopenDiv }) {
       className="canvas d-flex flex-column justify-content-between"
       style={{
         width: 315,
-        overflowY: "auto",
-        zIndex: 1050, // Yan menünün diğer içeriklerin üstünde olmasını sağlamak için z-index ekledim
+        overflowY: "auto"
       }}
     >
-      <div>
+      <div className="canvas-list__top d-flex flex-column gap-1">
         <div className="mb-3">
           <div
             className="canvas__title d-flex align-items-center gap-2"
@@ -220,8 +217,8 @@ function SideNav({ handleclosediv, handleopenDiv }) {
             />
           </div>
         </div>
-        <div role="button">
-          <div className="canvas-list flex-columun gap-1 ">
+        <div  role="button">
+          <div className="canvas-list flex-columun gap-1 mb-3">
             <div className="canvas-list__item d-flex align-items-center">
               <div
                 className="canvas-list__img"
@@ -303,7 +300,7 @@ function SideNav({ handleclosediv, handleopenDiv }) {
           </div>
         </div>
       </div>
-      <div>
+      <div className="canvas-list__bottom d-flex flex-column gap-1 mt-auto">
         <SubscriptionPlan />
       </div>
     </div>
@@ -312,20 +309,18 @@ function SideNav({ handleclosediv, handleopenDiv }) {
 
 function SubscriptionPlan() {
   return (
-    <>
-      <div className="row d-flex  align-items-start m-0">
-        <div className="col-md-10 d-flex gap-3 ">
+    <div>
+      <div className="d-flex align-items-center justify-content-between ">
+        <div className="d-flex align-items-start gap-2">
           <img src="./img/brianAvatar.svg" width={22} height={22} />
           <p>Brian Ford</p>
         </div>
-        <div className="col-md-2 ">
-          <button className="border border-0 bg-transparent">
+          <button type="button" className="border border-0 bg-transparent">
             <img src="./img/dots menu.svg" alt="" />
           </button>
-        </div>
       </div>
-      <div className="card-body p-3 p-0 m-0 bg-body-tertiary border-0">
-        <div className="col d-flex justify-content-between  p-0 mb-2 ">
+      <div className="card px-3 pb-3">
+        <div className="card__top d-flex justify-content-between ">
           <img src="./img/ProgressCircle.svg" alt="" />
           <button
             type="button"
@@ -333,13 +328,13 @@ function SubscriptionPlan() {
             aria-label="Close"
           ></button>
         </div>
-        <h5>Subscription Plan</h5>
-        <p>Your Subscription plan will expire soon please upgrade!</p>
-        <a className="upgrade" href="#">
+        <h5 className="mt-2 mb-1">Subscription Plan</h5>
+        <p className="card-text">Your Subscription plan will expire soon please upgrade!</p>
+        <a className="upgrade mt-3 align-self-start" href="#">
           Upgrade
         </a>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -614,7 +609,7 @@ function LookscoutTeamUser({ avatar, name, role, status, bgcolor, textcolor }) {
         <div className="col-6 p-0">
           <div className="container p-0 ">
             <div className="row ">
-              <p className="m-0">{name}</p>
+              <h6 className="m-0">{name}</h6>
               <p className="m-0">{role}</p>
             </div>
           </div>
@@ -708,7 +703,7 @@ function UpdatedMaterialsDoc({ img, name, byte, icon }) {
         <div className="col-9 p-0">
           <div className="container p-0 ">
             <div className="row ">
-              <p className="m-0">{name}</p>
+              <h6 className="m-0">{name}</h6>
               <p className="m-0">{byte}</p>
             </div>
           </div>
@@ -795,10 +790,14 @@ function RecentTransactionsApps({
       >
         <div className="d-flex align-items-center gap-3">
           <img src={img} />
-          <div>
-            <p className="m-0">{name}</p>
-            <p className="m-0">{date}</p>
+          <div className="col-6 p-0">
+          <div className="container p-0 ">
+            <div className="row ">
+              <h6 className="m-0">{name}</h6>
+              <p className="m-0">{date}</p>
+            </div>
           </div>
+        </div>
         </div>
         <div className="col-2 p-0">
           <button
@@ -924,4 +923,4 @@ function ApexChart() {
   );
 }
 
-<div></div>;
+
