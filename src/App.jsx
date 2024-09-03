@@ -45,7 +45,7 @@ export default function App() {
     >
       <div className="d-flex">
         <Nav handleopenDiv={handleopenDiv} setDark={setDark} dark={dark} />
-        <div className="canvas_all d-none  d-lg-block border-end show">
+        <div className="canvas_all d-none d-lg-block border-end">
           <SideNav
             handleclosediv={handleclosediv}
             handleopenDiv={handleopenDiv}
@@ -288,10 +288,10 @@ function SideNav({ handleclosediv, handleopenDiv }) {
   return (
     <>
       <div
-        className="canvas d-flex flex-column justify-content-between"
+        className=" d-flex flex-column"
         style={{
-          width: 315,
-          overflowY: "auto",
+          width: 315
+        
         }}
       >
         <div className="canvas__top">
@@ -467,11 +467,10 @@ function SideNav({ handleclosediv, handleopenDiv }) {
             </div>
           </div>
         </div>
-        <div className="flex-grow-1"></div>
         <div className="canvas__bottom">
-          <div className="canvas-list__bottom d-flex flex-column gap-1 mt-auto">
+    
             <SubscriptionPlan />
-          </div>
+         
         </div>
       </div>
     </>
@@ -480,7 +479,7 @@ function SideNav({ handleclosediv, handleopenDiv }) {
 
 function SubscriptionPlan() {
   return (
-    <div>
+    <div className="canvas-list__bottom d-inline-flex flex-column gap-1 ">
       <div className="d-flex align-items-center justify-content-between ">
         <div className="d-flex align-items-start gap-2">
           <img src="./img/brianAvatar.svg" width={22} height={22} />

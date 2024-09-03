@@ -137,6 +137,10 @@ body.dark-mode {
 .sidebar-list {
   height: 100vh;
 }
+
+.canvas_all {
+  height: 100vh;
+}
 .sidebar__bottom {
   margin-bottom: 32px;
 }
@@ -208,7 +212,6 @@ h6 {
   position: sticky;
   top: 0;
   left: 0;
-  min-width: 83px;
   z-index: 2;
 }
 .canvas-list {
