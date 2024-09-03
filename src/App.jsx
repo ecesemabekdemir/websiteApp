@@ -74,39 +74,44 @@ function ApexCard({ dark }) {
   return (
     <>
       <div className="card-general chart" style={{ marginBlock: 32 }}>
-          <div className="chart__title d-flex py-3 justify-content-between align-items-center" style={{paddingInline:20}}>
-            <div className="col-md-6">
-              <h2 className="graphicTitle">Advanced Graphic</h2>
-            </div>
-            <div className="col-auto">
-              <button className="border border-0 bg-transparent">
-                <img src="./img/dots menu.svg" alt="" />
-              </button>
-            </div>
-          </div>
-          <div className="chart__hero py-3 border-top-bottom" style={{paddingInline:20}}>
+        <div
+          className="chart__title d-flex py-3 justify-content-between align-items-center"
+          style={{ paddingInline: 20 }}
+        >
+          <h3 className="graphicTitle">Advanced Graphic</h3>
+          <button className="border border-0 bg-transparent">
+            <img src="./img/dots menu.svg" alt="" />
+          </button>
+        </div>
+        <div
+          className="chart__hero py-3 border-top-bottom"
+          style={{ paddingInline: 20 }}
+        >
           <ApexChart />
+        </div>
+        <div
+          className="chart__bottom d-flex py-3 justify-content-between align-items-center"
+          style={{ paddingInline: 20 }}
+        >
+          <div className="d-flex col-md-6">
+            <span
+              style={{ color: dark ? "#FFFFFF" : "#5F6D7E" }}
+              className="d-none d-md-block"
+            >
+              Data graph
+            </span>
           </div>
-          <div className="chart__bottom d-flex py-3 justify-content-between align-items-center" style={{paddingInline:20}}> 
-            <div className="d-flex col-md-6">
-              <span
-                style={{ color: dark ? "#FFFFFF" : "#5F6D7E" }}
-                className="d-none d-md-block"
-              >
-                Data graph
-              </span>
-            </div>
-            <div className="d-flex align-items-center">
-                <button className="btn text-primary d-flex gap-2 align-items-center">
-                  Open <img src="./img/externalLink.svg" alt="" />
-                </button>
-              </div>
-            </div>
+          <div className="d-flex align-items-center">
+            <button className="btn text-primary d-flex gap-2 align-items-center">
+              Open <img src="./img/externalLink.svg" alt="" />
+            </button>
           </div>
+        </div>
+      </div>
     </>
   );
 }
-function Nav({ handleopenDiv,dark,setDark }) {
+function Nav({ handleopenDiv, dark, setDark }) {
   return (
     <div
       className="sidebar_all d-none d-lg-block border-end"
@@ -167,7 +172,7 @@ function Nav({ handleopenDiv,dark,setDark }) {
             className={`btn border-0`}
             onClick={() => setDark(!dark)}
           >
-            <svg 
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -196,7 +201,7 @@ function SideNav({ handleclosediv, handleopenDiv }) {
       className="canvas d-flex flex-column justify-content-between"
       style={{
         width: 315,
-        overflowY: "auto"
+        overflowY: "auto",
       }}
     >
       <div className="canvas-list__top d-flex flex-column gap-1">
@@ -217,7 +222,7 @@ function SideNav({ handleclosediv, handleopenDiv }) {
             />
           </div>
         </div>
-        <div  role="button">
+        <div role="button">
           <div className="canvas-list flex-columun gap-1 mb-3">
             <div className="canvas-list__item d-flex align-items-center">
               <div
@@ -315,9 +320,9 @@ function SubscriptionPlan() {
           <img src="./img/brianAvatar.svg" width={22} height={22} />
           <p>Brian Ford</p>
         </div>
-          <button type="button" className="border border-0 bg-transparent">
-            <img src="./img/dots menu.svg" alt="" />
-          </button>
+        <button type="button" className="border border-0 bg-transparent">
+          <img src="./img/dots menu.svg" alt="" />
+        </button>
       </div>
       <div className="card px-3 pb-3">
         <div className="card__top d-flex justify-content-between ">
@@ -329,7 +334,9 @@ function SubscriptionPlan() {
           ></button>
         </div>
         <h5 className="mt-2 mb-1">Subscription Plan</h5>
-        <p className="card-text">Your Subscription plan will expire soon please upgrade!</p>
+        <p className="card-text">
+          Your Subscription plan will expire soon please upgrade!
+        </p>
         <a className="upgrade mt-3 align-self-start" href="#">
           Upgrade
         </a>
@@ -400,9 +407,13 @@ function Header({ dark }) {
           className="d-flex col-md-auto align-items-center justify-content-between gap-3 p-0 m-inline-0"
           style={{ marginBottom: 16 }}
         >
-          <button className={`btn ${
+          <button
+            className={`btn ${
               dark ? "btn-outline-light" : "btn-outline-secondary"
-            }`}>Edit section</button>
+            }`}
+          >
+            Edit section
+          </button>
           <button className="btn btn-primary" type="submit">
             Add item
           </button>
@@ -498,23 +509,25 @@ function Card({ title, price, img, status, bgcolor, textcolor }) {
 function UserSection({ dark }) {
   return (
     <>
-      <div className={`userSection d-lg-flex justify-content-between align-items-center my-3 ${dark ? "text-white" : "text-dark"}`}>
-       
-          <div className="pb-3 pb-lg-0">
-            <h5>Brian Ford</h5>
-          </div>
-          <div className="userSection-btns d-flex align-items-center justify-content-between">
-            <div className="d-flex" style={{gap:12}}
-            >
+      <div
+        className={`userSection d-lg-flex justify-content-between align-items-start my-3 ${
+          dark ? "text-white" : "text-dark"
+        }`}
+      >
+        <div className="pb-3 pb-lg-0">
+          <h3>Brian Ford</h3>
+        </div>
+        <div className="userSection-btns d-flex align-items-center justify-content-between">
+          <div className="d-flex" style={{ gap: 12 }}>
             <button
               className={`px-3 border-radius-1 btn ${
                 dark ? "btn-outline-light" : "btn-outline-secondary"
               }`}
+              style={{ paddingRight: 12 }}
             >
               Edit Section
             </button>
             <button className="btn btn-primary">Add item</button>
-          </div>
           </div>
           <div className="d-flex d-md-none">
             <button className="border border-0 bg-transparent">
@@ -522,7 +535,7 @@ function UserSection({ dark }) {
             </button>
           </div>
         </div>
-
+      </div>
     </>
   );
 }
@@ -530,20 +543,16 @@ function UserSection({ dark }) {
 function LookscoutTeam({ dark }) {
   return (
     <>
-      <div className="card">
-        <div className="card-body">
-          <div className="container  px-3 ">
-            <div className="row justify-content-between align-items-center">
-              <div className="col-8">
-                <p>Lookscout Team</p>
-              </div>
-              <div className="col-auto">
-                <button className="border border-0 bg-transparent">
-                  <img src="./img/dots menu.svg" alt="" />
-                </button>
-              </div>
-            </div>
+      <div className="d-flex flex-column">
+        <div className="team-list__title px-4 py-3 d-flex justify-content-between">
+          <h3>Lookscout Team</h3>
+          <div>
+            <button className="border border-0 bg-transparent">
+              <img src="./img/dots menu.svg" alt="" />
+            </button>
           </div>
+        </div>
+        <div className="team-list px-4 ">
           <LookscoutTeamUser
             avatar={"./img/latoyaAvatar.svg"}
             name={"Latoya Langosh"}
@@ -552,7 +561,6 @@ function LookscoutTeam({ dark }) {
             bgcolor={dark ? "#2C3444" : "#F5FAFF"}
             textcolor={dark ? "#437EF7" : "#437EF7"}
           />
-          <hr />
 
           <LookscoutTeamUser
             avatar={"./img/abelAvatar.svg"}
@@ -562,7 +570,7 @@ function LookscoutTeam({ dark }) {
             bgcolor={dark ? "#2C3444" : "#F5FAFF"}
             textcolor={dark ? "#437EF7" : "#437EF7"}
           />
-          <hr />
+
           <LookscoutTeamUser
             avatar={"./img/shariAvatar.svg"}
             name={"Shari Stamm"}
@@ -571,7 +579,7 @@ function LookscoutTeam({ dark }) {
             bgcolor={dark ? "#2C3444" : "#F7F7F8"}
             textcolor={dark ? "#437EF7" : "#272D37"}
           />
-          <hr />
+
           <LookscoutTeamUser
             avatar={"./img/earlAvatar.svg"}
             name={"Earl Johnson"}
@@ -580,7 +588,7 @@ function LookscoutTeam({ dark }) {
             bgcolor={dark ? "#2C3444" : "#F7F7F8"}
             textcolor={dark ? "#437EF7" : "#272D37"}
           />
-          <hr />
+
           <LookscoutTeamUser
             avatar={"./img/erickAvatar.svg"}
             name={"Erick Champlin"}
@@ -589,10 +597,10 @@ function LookscoutTeam({ dark }) {
             bgcolor={dark ? "#2C3444" : "#F5FAFF"}
             textcolor={dark ? "#437EF7" : "#437EF7"}
           />
-          <hr />
-          <div className="d-grid gap-2">
-            <button className="btn btn-primary">View all</button>
-          </div>
+
+          <button className="btn btn-primary mx-4 py-2 text-white my-3">
+            View all
+          </button>
         </div>
       </div>
     </>
@@ -601,89 +609,78 @@ function LookscoutTeam({ dark }) {
 
 function LookscoutTeamUser({ avatar, name, role, status, bgcolor, textcolor }) {
   return (
-    <div className="container px-3 py-1">
-      <div className="row justify-content-between align-items-center">
-        <div className="col-2 p-0">
+    <>
+      <div
+        className="team-list__item py-3 d-flex justify-content-between align-items-center  border-bottom"
+        style={{ paddingInline: 20 }}
+      >
+        <div className="d-flex align-items-center" style={{ gap: 10 }}>
           <img src={avatar} alt="" />
-        </div>
-        <div className="col-6 p-0">
-          <div className="container p-0 ">
-            <div className="row ">
-              <h6 className="m-0">{name}</h6>
-              <p className="m-0">{role}</p>
-            </div>
+          <div>
+            <h6>{name}</h6>
+            <p>{role}</p>
           </div>
         </div>
-        <div className="col-2 p-0">
+        <div className="d-flex align-items-center" style={{ gap: 10 }}>
           <span
-            className="badge"
-            style={{ backgroundColor: bgcolor, color: textcolor }}
+            className="badge px-2"
+            style={{
+              backgroundColor: bgcolor,
+              color: textcolor,
+              paddingBlock: 2,
+            }}
           >
             {status}
           </span>
-        </div>
-        <div className="col-1 p-0">
           <img src="./img/sagOkicon.svg" />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
 function UpdatedMaterials() {
   return (
     <>
-      <div className="card">
-        <div className="card-body">
-          <div className="container  px-3 ">
-            <div className="row justify-content-between align-items-center">
-              <div className="col-8">
-                <p>Updated Materials</p>
-              </div>
-              <div className="col-auto">
-                <button className="border border-0 bg-transparent">
-                  <img src="./img/dots menu.svg" className="svg-icon" alt="" />
-                </button>
-              </div>
-            </div>
-          </div>
+      <div className="d-flex flex-column">
+        <div className="file-upload-list__title px-4 py-3 d-flex justify-content-between align-items-center">
+          <h3>Updated Materials</h3>
+          <button className="border border-0 bg-transparent">
+            <img src="./img/dots menu.svg" className="svg-icon" alt="" />
+          </button>
+        </div>
+        <div className="file-upload-list px-4 border-top-bottom">
           <UpdatedMaterialsDoc
             img={"./img/pdf.svg"}
             name={"Lookscout Resources"}
             byte={"80.69 mb"}
             icon={"./img/download.svg"}
           />
-          <hr />
-
           <UpdatedMaterialsDoc
             img={"./img/mp4.svg"}
             name={"Lookscout Updates"}
             byte={"320.32 mb"}
             icon={"./img/download.svg"}
           />
-          <hr />
           <UpdatedMaterialsDoc
             img={"./img/pdf.svg"}
             name={"Lookscout Guides"}
             byte={"320.32 mb"}
             icon={"./img/placeholder.svg"}
           />
-          <hr />
           <UpdatedMaterialsDoc
             img={"./img/zip.svg"}
             name={"Lookscout Design System"}
             byte={"320.32 mb"}
             icon={"./img/download.svg"}
           />
-          <hr />
           <UpdatedMaterialsDoc
             img={"./img/mp4.svg"}
             name={"Lookscout Guides"}
             byte={"125.05 mb"}
             icon={"./img/download.svg"}
           />
-          <hr />
-          <div className="d-flex gap-2 ">
+          <div className="file-upload-list__buttons px-4 my-3 d-flex gap-2 ">
             <button className="btn btn-light w-100">Cancel</button>
             <button className="btn btn-primary w-100">Upload</button>
           </div>
@@ -695,23 +692,18 @@ function UpdatedMaterials() {
 
 function UpdatedMaterialsDoc({ img, name, byte, icon }) {
   return (
-    <div className="container px-3 py-1 ">
-      <div className="row justify-content-between align-items-center">
-        <div className="col-2 p-0">
-          <img src={img} alt="" />
-        </div>
-        <div className="col-9 p-0">
-          <div className="container p-0 ">
-            <div className="row ">
-              <h6 className="m-0">{name}</h6>
-              <p className="m-0">{byte}</p>
-            </div>
-          </div>
-        </div>
-        <div className="col-1 p-0">
-          <img src={icon} alt="" />
+    <div
+      className="file-upload-list__item py-3 d-flex align-items-center justify-content-between border-bottom"
+      style={{ paddingInline: 20 }}
+    >
+      <div className="d-flex align-items-center " style={{ gap: 10 }}>
+        <img src={img} alt="" />
+        <div>
+          <h6>{name}</h6>
+          <p>{byte}</p>
         </div>
       </div>
+      <img src={icon} alt="" />
     </div>
   );
 }
@@ -791,15 +783,15 @@ function RecentTransactionsApps({
         <div className="d-flex align-items-center gap-3">
           <img src={img} />
           <div className="col-6 p-0">
-          <div className="container p-0 ">
-            <div className="row ">
-              <h6 className="m-0">{name}</h6>
-              <p className="m-0">{date}</p>
+            <div className="container p-0 ">
+              <div className="row ">
+                <h6 className="m-0">{name}</h6>
+                <p className="m-0">{date}</p>
+              </div>
             </div>
           </div>
         </div>
-        </div>
-        <div className="col-2 p-0">
+        <div className="col-2 p-0 gap-1">
           <button
             className="badge done px-2 "
             style={{
@@ -819,7 +811,7 @@ function RecentTransactionsApps({
 
 function UserSectionDetail({ dark }) {
   return (
-    <div className="d-flex flex*wrap gap-xl-4 gap-2">
+    <div className="d-flex flex-wrap gap-xl-4 gap-3">
       <div className="flex-fill">
         <div className="card-general">
           <LookscoutTeam dark={dark} />
@@ -922,5 +914,3 @@ function ApexChart() {
     </div>
   );
 }
-
-
