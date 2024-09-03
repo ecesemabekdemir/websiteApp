@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import ReactApexChart from "react-apexcharts";
 
-export default function App() { 
+export default function App() {
   const [dark, setDark] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -21,46 +21,49 @@ export default function App() {
       mediaQuery.removeEventListener("change", handleMediaChange);
     };
   }, []);
-  
-  function handleopenDiv(){
-    let sidenav = document.querySelector(".sidenav");
-    let content = document.querySelector(".content");
+
+  function handleopenDiv() {
+    let sidenav = document.querySelector(".canvas");
+    let content = document.querySelector(".screen_side");
     sidenav.style.width = "250px";
-    content.style.width = "calc(100% - 250px)";
+    content.style.width = "calc(100% - 273px)";
     sidenav.style.transition = "all .4s";
   }
-  function handleclosediv(){
-    let sidenav = document.querySelector(".sidenav");
+  function handleclosediv() {
+    let sidenav = document.querySelector(".canvas");
+    let content = document.querySelector("screen_side");
     sidenav.style.width = "0px";
-    content.style.width = "calc(100% + 250px)";
+    content.style.width = "calc(100% -1px)";
     sidenav.style.transition = "all .4s";
   }
 
   return (
-    <div style={{maxWidth:1440}}
+    <div
+      style={{ maxWidth: 1440 }}
       className={`main ${dark ? "bg-dark" : "bg-light"}`}
       data-bs-theme={dark ? "dark" : "light"}
     >
-      <div className="d-flex   m-0 ">
-        <div className="d-none d-md-flex ">
-          <Nav handleopenDiv={handleopenDiv}/>
+      <div className="d-flex">
+        <Nav handleopenDiv={handleopenDiv} setDark={setDark} dark={dark} />
+        <div>
+          <div className="canvas_all d-none  d-lg-block border-end show">
+            <SideNav
+              handleclosediv={handleclosediv}
+              handleopenDiv={handleopenDiv}
+            />
+          </div>
         </div>
-        <div className="d-none  d-md-flex  p-0">
-          <SideNav className="d-none d-md-flex" handleclosediv={handleclosediv}/>
-        </div>
-        <div
-          className="p-0  content "
-          style={{ 
-            padding: isMobile ? 8 : 32,
-          }}
-        >
+
+        <div className="screen_side flex-grow-1">
           <div className=" p-3">
             <Navbar dark={dark} />
             <Header setDark={setDark} dark={dark} />
-            <Cards dark={dark} />
-            <ApexCard dark={dark} />
-            <UserSection dark={dark} />
-            <UserSectionDetail dark={dark} />
+            <div className="main_page d-flex flex-column mt-3">
+              <Cards dark={dark} />
+              <ApexCard dark={dark} />
+              <UserSection dark={dark} />
+              <UserSectionDetail dark={dark} />
+            </div>
           </div>
         </div>
       </div>
@@ -70,9 +73,8 @@ export default function App() {
 function ApexCard({ dark }) {
   return (
     <>
-      <div className="card" style={{ marginBlock: 32 }}>
-        <div className="card-body">
-          <div className="d-flex py-3 justify-content-between align-items-center" >
+      <div className="card-general chart" style={{ marginBlock: 32 }}>
+          <div className="chart__title d-flex py-3 justify-content-between align-items-center" style={{paddingInline:20}}>
             <div className="col-md-6">
               <h2 className="graphicTitle">Advanced Graphic</h2>
             </div>
@@ -82,108 +84,107 @@ function ApexCard({ dark }) {
               </button>
             </div>
           </div>
+          <div className="chart__hero py-3 border-top-bottom" style={{paddingInline:20}}>
           <ApexChart />
-          <div className="d-flex py-3 justify-content-between align-items-center">
+          </div>
+          <div className="chart__bottom d-flex py-3 justify-content-between align-items-center" style={{paddingInline:20}}> 
             <div className="d-flex col-md-6">
-              <h2 style={{ color: dark ? "#FFFFFF" : "#2D8A39" }}className="graphicTitle">
+              <span
+                style={{ color: dark ? "#FFFFFF" : "#5F6D7E" }}
+                className="d-none d-md-block"
+              >
                 Data graph
-              </h2>
+              </span>
             </div>
-            <div className="col-auto">
-              <div className="d-flex gap-2">
+            <div className="d-flex align-items-center">
                 <button className="btn text-primary d-flex gap-2 align-items-center">
                   Open <img src="./img/externalLink.svg" alt="" />
                 </button>
               </div>
             </div>
           </div>
-        </div>
-      </div>
     </>
   );
 }
-function Nav({ handleopenDiv} ) {
-  
+function Nav({ handleopenDiv,dark,setDark }) {
   return (
-    <div className="card p-0 " style={{ width: 90 }}>
-      <div className="card-body d-flex flex-column ">
-        <div className="container text-center">
-          <div
-            className="row justify-content-center d-flex "
-            style={{ gap: 16 }}
+    <div
+      className="sidebar_all d-none d-lg-block border-end"
+      style={{ width: 90 }}
+    >
+      <div className="sidebar-list px-3 pt-3 d-flex flex-column justify-content-between">
+        <div className="sidebar-list__top d-flex flex-column gap-1 ">
+          <svg
+            width="50"
+            height="50"
+            viewBox="0 0 48 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <svg
-              width="50"
-              height="50"
-              viewBox="0 0 48 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M29.5631 12.2143L11.0054 22.9286V16.5L23.9999 9L29.5631 12.2143Z"
-                fill="#221F20"
-              />
-              <path
-                d="M36.9944 16.5V20.2088L14.2197 33.3544L11.0054 31.5V28.011L33.9587 14.7555L36.9944 16.5Z"
-                fill="#221F20"
-              />
-              <path
-                d="M18.6153 35.8956L36.9944 25.2912V31.5L23.9999 39L18.6153 35.8956Z"
-                fill="#221F20"
-              />
-            </svg>
+            <path
+              d="M29.5631 12.2143L11.0054 22.9286V16.5L23.9999 9L29.5631 12.2143Z"
+              fill="#221F20"
+            />
+            <path
+              d="M36.9944 16.5V20.2088L14.2197 33.3544L11.0054 31.5V28.011L33.9587 14.7555L36.9944 16.5Z"
+              fill="#221F20"
+            />
+            <path
+              d="M18.6153 35.8956L36.9944 25.2912V31.5L23.9999 39L18.6153 35.8956Z"
+              fill="#221F20"
+            />
+          </svg>
 
-            <button
-              className="border-0 bg-transparent"
-              onClick={handleopenDiv}
-            >
-              <img src="./img/search.svg" alt="search" width={22} height={22} />
-            </button>
-            <button
-              className="border-0 bg-transparent"
-              onClick={handleopenDiv}
-            >
-              <img
-                src="./img/horizontal.svg"
-                alt="horizontal"
-                width={22}
-                height={22}
-              />
-            </button>
-            <button
-              className="border-0 bg-transparent"
-              onClick={handleopenDiv}
-            >
-              <img
-                src="./img/calendar.svg"
-                alt="calendar"
-                width={22}
-                height={22}
-              />
-            </button>
-            <button
-              className="border-0 bg-transparent"
-              onClick={handleopenDiv}
-            >
-              <img src="./img/alt.svg" alt="alt" width={22} height={22} />
-            </button>
-          </div>
-        </div>
-        <div
-          className="d-flex mt-auto flex-column align-item-center"
-          style={{ gap: 16}}
-        >
-          <button
-            className="border-0 bg-transparent"
-            onClick={handleopenDiv}
-          >
-            <img src="./img/ayarlar.svg" width={22} height={22} />
+          <button className="sidebar-list__item border-0 bg-transparent">
+            <img src="./img/search.svg" alt="search" width={24} height={24} />
           </button>
           <button
-            className="border-0 bg-transparent"
+            className="sidebar-list__item border-0 bg-transparent active"
             onClick={handleopenDiv}
           >
-            <img src="./img/cikis.svg" width={22} height={22} />
+            <img
+              src="./img/horizontal.svg"
+              alt="horizontal"
+              width={24}
+              height={24}
+            />
+          </button>
+          <button className="sidebar-list__item  border-0 bg-transparent ">
+            <img
+              src="./img/calendar.svg"
+              alt="calendar"
+              width={24}
+              height={24}
+            />
+          </button>
+          <button className="sidebar-list__item border-0 bg-transparent">
+            <img src="./img/alt.svg" alt="alt" width={24} height={24} />
+          </button>
+        </div>
+        <div className="sidebar-list__bottom d-flex flex-column gap-1 mt-auto">
+          <button
+            type="button"
+            className={`btn ${
+              dark ? "btn-outline-light" : "btn-outline-secondary"
+            }`}
+            onClick={() => setDark(!dark)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-brightness-high"
+              viewBox="0 0 16 16"
+            >
+              <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+            </svg>
+          </button>
+          <button className="sidebar-list__item border-0 bg-transparent">
+            <img src="./img/ayarlar.svg" width={24} height={24} />
+          </button>
+          <button className="sidebar-list__item border-0 bg-transparent">
+            <img src="./img/cikis.svg" width={24} height={24} />
           </button>
         </div>
       </div>
@@ -191,132 +192,123 @@ function Nav({ handleopenDiv} ) {
   );
 }
 
-function SideNav({handleclosediv}) {
-
-  
+function SideNav({ handleclosediv, handleopenDiv }) {
   return (
-    (
-      <div
-        className="d-md-flex card sidenav  flex-column justify-content-between p-0"
-        style={{
-          width: 315, 
-          overflowY: "auto",
-          zIndex: 1050, // Yan menünün diğer içeriklerin üstünde olmasını sağlamak için z-index ekledim
-        }}
-      >
-        <div className="card-body m-0 p-3  d-flex flex-column justify-content-between"> 
-              <div className="mb-3">
+    <div
+      className="canvas d-flex flex-column justify-content-between"
+      style={{
+        width: 315,
+        overflowY: "auto",
+        zIndex: 1050, // Yan menünün diğer içeriklerin üstünde olmasını sağlamak için z-index ekledim
+      }}
+    >
+      <div>
+        <div className="mb-3">
+          <div
+            className="canvas__title d-flex align-items-center gap-2"
+            onClick={handleclosediv}
+            style={{ cursor: "pointer" }}
+          >
+            <img src="./img/arrowLeft.svg" alt="Arrow Left" />
+            Lookscout Dashboard
+          </div>
+          <div className="canvas-list__input">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="search here..."
+            />
+          </div>
+        </div>
+        <div role="button">
+          <div className="canvas-list flex-columun gap-1 ">
+            <div className="canvas-list__item d-flex align-items-center">
               <div
-                onClick={handleclosediv}
+                className="canvas-list__img"
+                onClick={handleopenDiv}
                 style={{ cursor: "pointer" }}
-                className="form-label d-flex gap-2 align-items-center"
               >
-                <img src="./img/arrowLeft.svg" alt="Arrow Left" />
-                Lookscout Dashboard
+                <img
+                  src="./img/horizontal2.svg"
+                  alt="General"
+                  width={22}
+                  height={22}
+                />
               </div>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="search here..."
-              />
+              <a href="#">General</a>
             </div>
-            <div className="flex-grow-1 ">
-              <div className="row align-items-center mb-3">
-                <div className="col-md-2">
-                  <img
-                    src="./img/horizontal2.svg"
-                    alt="General"
-                    width={22}
-                    height={22}
-                  />
-                </div>
-                <div className="col-md-10">
-                  <a href="#">General</a>
-                </div>
+            <div className="canvas-list__item d-flex align-items-center">
+              <div className="canvas-list__img">
+                <img
+                  src="./img/messages.svg"
+                  alt="Messages"
+                  width={22}
+                  height={22}
+                />
               </div>
-              <div className="row align-items-center mb-3">
-                <div className="col-md-2">
-                  <img
-                    src="./img/messages.svg"
-                    alt="Messages"
-                    width={22}
-                    height={22}
-                  />
-                </div>
-                <div className="col-md-10">
-                  <a href="#">Messages</a>
-                </div>
+              <a href="#">Messages</a>
+            </div>
+            <div className="canvas-list__item d-flex align-items-center">
+              <div className="canvas-list__img">
+                <img
+                  src="./img/notification.svg"
+                  alt="Notification"
+                  width={22}
+                  height={22}
+                />
               </div>
-              <div className="row align-items-center mb-3">
-                <div className="col-md-2">
-                  <img
-                    src="./img/notification.svg"
-                    alt="Notification"
-                    width={22}
-                    height={22}
-                  />
-                </div>
-                <div className="col-md-10">
-                  <a href="#">Notification</a>
-                </div>
+              <a href="#">Notification</a>
+            </div>
+            <div className="canvas-list__item d-flex align-items-center">
+              <div className="canvas-list__img">
+                <img src="./img/users.svg" alt="Users" width={22} height={22} />
               </div>
-              <div className="row align-items-center mb-3">
-                <div className="col-md-2">
-                  <img src="./img/users.svg" alt="Users" width={22} height={22} />
-                </div>
-                <div className="col-md-10">
-                  <a href="#">Users</a>
-                </div>
-              </div>
-              <div className="row align-items-center mb-3">
-                <div className="col-md-2">
-                  <img
-                    src="./img/events-circle.svg"
-                    alt="Events & Logs"
-                    width={22}
-                    height={22}
-                  />
-                </div>
-                <div className="col-md-10">
-                  <a href="#">Events & Logs</a>
-                </div>
-              </div>
-              <div className="row align-items-center mb-3">
-                <div className="col-md-2">
-                  <img
-                    src="./img/organization.svg"
-                    alt="Organization"
-                    width={22}
-                    height={22}
-                  />
-                </div>
-                <div className="col-md-10">
-                  <a href="#">Organization</a>
-                </div>
-              </div>
-              <div className="row align-items-center mb-3">
-                <div className="col-md-2">
-                  <img
-                    src="./img/user-teams.svg"
-                    alt="Teams"
-                    width={22}
-                    height={22}
-                  />
-                </div>
-                <div className="col-md-10">
-                  <a href="#">Teams</a>
-                </div>
+              <div className="col-md-10">
+                <a href="#">Users</a>
               </div>
             </div>
+            <div className="canvas-list__item d-flex align-items-center">
+              <div className="canvas-list__img">
+                <img
+                  src="./img/events-circle.svg"
+                  alt="Events & Logs"
+                  width={22}
+                  height={22}
+                />
+              </div>
+              <a href="#">Events & Logs</a>
             </div>
-            <div  >
-              <SubscriptionPlan />
+            <div className="canvas-list__item d-flex align-items-center">
+              <div className="canvas-list__img">
+                <img
+                  src="./img/organization.svg"
+                  alt="Organization"
+                  width={22}
+                  height={22}
+                />
+              </div>
+              <a href="#">Organization</a>
             </div>
-          </div> 
-    )
+            <div className="canvas-list__item d-flex align-items-center">
+              <div className="canvas-list__img">
+                <img
+                  src="./img/user-teams.svg"
+                  alt="Teams"
+                  width={22}
+                  height={22}
+                />
+              </div>
+              <a href="#">Teams</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <SubscriptionPlan />
+      </div>
+    </div>
   );
 }
-
 
 function SubscriptionPlan() {
   return (
@@ -362,7 +354,7 @@ function Navbar({ dark }) {
           <img src="./img/ham-menu.svg" alt="" />
         </div>
       </div>
-      <div className={`container nav m-0 ${dark ? "text-white" : "text-dark"}`}>
+      <nav className={`container nav m-0 ${dark ? "text-white" : "text-dark"}`}>
         <div className="d-none d-md-flex  align-items-start col p-0">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
@@ -382,41 +374,40 @@ function Navbar({ dark }) {
             </li>
           </ol>
         </div>
-        <div className="d-flex d-md-none back gap-2 " style={{marginBottom:16}}>
+        <div
+          className="d-flex d-md-none back gap-2 "
+          style={{ marginBottom: 16 }}
+        >
           {" "}
           <img src="./img/Icon.svg" />
           <strong>Back</strong>
         </div>
-      </div>
+      </nav>
     </>
   );
 }
 
-function Header({ dark, setDark }) {
+function Header({ dark }) {
   return (
     <>
       <div
-        className={`d-flex flex-wrap flex-md-nowrap justify-content-between align-items-start p-0 m-0 ${
+        className={`header d-lg-flex justify-content-between align-items-start p-0 m-0  ${
           dark ? "text-white" : "text-dark"
         }`}
       >
-        <div className="p-0 m-0">
+        <div className="header__title m-t3">
           <h2>Hey there, Brian Ford!</h2>
-          <p className="upContent">
+          <h3 className="upContent">
             Welcome back, we're happy to have you here!
-          </p>
+          </h3>
         </div>
-        <div className="d-flex col-md-auto align-items-center justify-content-between gap-3 p-0 m-inline-0" style={{ marginBottom: 16 }}>
-          <button
-            type="button"
-            className={`btn ${
+        <div
+          className="d-flex col-md-auto align-items-center justify-content-between gap-3 p-0 m-inline-0"
+          style={{ marginBottom: 16 }}
+        >
+          <button className={`btn ${
               dark ? "btn-outline-light" : "btn-outline-secondary"
-            }`}
-            onClick={() => setDark(!dark)}
-          >
-            {" "}
-            Edit section
-          </button>
+            }`}>Edit section</button>
           <button className="btn btn-primary" type="submit">
             Add item
           </button>
@@ -432,38 +423,36 @@ function Header({ dark, setDark }) {
 function Cards({ dark }) {
   return (
     <>
-      <div className="cardChart ">
-        <div className=" d-flex flex-wrap flex-md-nowrap  gap-1 " >
-          <div  className=" col-md-4 ">
-            <Card
-              title={"Revenue"}
-              price={"$390"}
-              img={"./img/newChart.svg"}
-              status={"New"}
-              bgcolor={dark ? "#5390F8" : "#F5FAFF"}
-              textcolor={dark ? "#FFFFFF" : "#437EF7"}
-            />
-          </div>
-          <div  className=" col-md-4 ">
-            <Card
-              title={"Expenses"}
-              price={"$680"}
-              img={"./img/globalChart.svg"}
-              status={"Global"}
-              bgcolor={dark ? "#F04438" : "#FFF2F0"}
-              textcolor={dark ? "#FFF2F0" : "#E2341D"}
-            />
-          </div>
-          <div  className=" col-md-4">
-            <Card
-              title={"Expenses"}
-              price={"$680"}
-              img={"./img/intuitiveChart.svg"}
-              status={"Intuitive"}
-              bgcolor={dark ? "#5DC264" : "#F0FAF0"}
-              textcolor={dark ? "#F0FAF0" : "#2D8A39"}
-            />
-          </div>
+      <div className=" d-flex flex-wrap " style={{ gap: 20 }}>
+        <div className="flex-fill">
+          <Card
+            title={"Revenue"}
+            price={"$390"}
+            img={"./img/newChart.svg"}
+            status={"New"}
+            bgcolor={dark ? "#5390F8" : "#F5FAFF"}
+            textcolor={dark ? "#FFFFFF" : "#437EF7"}
+          />
+        </div>
+        <div className="flex-fill">
+          <Card
+            title={"Expenses"}
+            price={"$680"}
+            img={"./img/globalChart.svg"}
+            status={"Global"}
+            bgcolor={dark ? "#F04438" : "#FFF2F0"}
+            textcolor={dark ? "#FFF2F0" : "#E2341D"}
+          />
+        </div>
+        <div className="flex-fill">
+          <Card
+            title={"Expenses"}
+            price={"$680"}
+            img={"./img/intuitiveChart.svg"}
+            status={"Intuitive"}
+            bgcolor={dark ? "#5DC264" : "#F0FAF0"}
+            textcolor={dark ? "#F0FAF0" : "#2D8A39"}
+          />
         </div>
       </div>
     </>
@@ -472,59 +461,58 @@ function Cards({ dark }) {
 
 function Card({ title, price, img, status, bgcolor, textcolor }) {
   return (
-    <div className="card">
-      <div className="card-body">
-        <div className="container m-0">
-          <div className="d-flex justify-content-between  align-items-start">
-            <div className="col-md-4">{title}</div>
-            <div className="col-auto">
-              <button className="border border-0 bg-transparent">
-                <img src="./img/dots menu.svg" alt="dotsMenu" />
-              </button>
-            </div>
-          </div>
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="col-md-9">
-              <strong>{price} </strong>
-              <div className="container p-0 my-2">
-                <div className="row align-items-center">
-                  <div className="col-auto">
-                    <span
-                      className="badge"
-                      style={{ backgroundColor: bgcolor, color: textcolor }}
-                    >
-                      {status}
-                    </span>
-                  </div>
-                  <div className="col-auto p-0">
-                    <p className="m-0" style={{ fontSize: "14px" }}>
-                      monthly growth
-                    </p>
-                  </div>
+    <>
+      <div className="card-general " style={{ padding: 16 }}>
+        <div className="cards__item py-3 d-flex justify-content-between">
+          <h3>{title}</h3>
+        </div>
+        <div>
+          <button className="border border-0 bg-transparent">
+            <img src="./img/dots menu.svg" alt="dotsMenu" />
+          </button>
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center pb-3">
+          <div className="d-flex flex-column gap-12px">
+            <strong>{price} </strong>
+            <div className="container p-0 my-2">
+              <div className="d-flex align-items-center gap-2">
+                <span
+                  className="badge"
+                  style={{ backgroundColor: bgcolor, color: textcolor }}
+                >
+                  {status}
+                </span>
+                <div className="col-auto p-0">
+                  <p className="m-0" style={{ fontSize: "14px" }}>
+                    monthly growth
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="col-auto">
-              <img src={img} alt="newChart" />
-            </div>
+          </div>
+          <div className="col-auto">
+            <img src={img} alt="newChart" />
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
 function UserSection({ dark }) {
   return (
     <>
-      <div className={`userSection my-3 ${dark ? "text-white" : "text-dark"}`}>
-        <div className="row justify-content-between align-items-center">
-          <div className="col-md-4 d-flex d-ms-gap-3">
+      <div className={`userSection d-lg-flex justify-content-between align-items-center my-3 ${dark ? "text-white" : "text-dark"}`}>
+       
+          <div className="pb-3 pb-lg-0">
             <h5>Brian Ford</h5>
           </div>
-          <div className="col-auto d-flex gap-3">
+          <div className="userSection-btns d-flex align-items-center justify-content-between">
+            <div className="d-flex" style={{gap:12}}
+            >
             <button
-              className={`btn ${
+              className={`px-3 border-radius-1 btn ${
                 dark ? "btn-outline-light" : "btn-outline-secondary"
               }`}
             >
@@ -532,13 +520,14 @@ function UserSection({ dark }) {
             </button>
             <button className="btn btn-primary">Add item</button>
           </div>
-          <div className="col-auto d-flex d-md-none">
+          </div>
+          <div className="d-flex d-md-none">
             <button className="border border-0 bg-transparent">
               <img src="./img/dots menu.svg" alt="" />
             </button>
           </div>
         </div>
-      </div>
+
     </>
   );
 }
@@ -658,7 +647,7 @@ function UpdatedMaterials() {
               </div>
               <div className="col-auto">
                 <button className="border border-0 bg-transparent">
-                  <img src="./img/dots menu.svg" className="svg-icon"  alt="" />
+                  <img src="./img/dots menu.svg" className="svg-icon" alt="" />
                 </button>
               </div>
             </div>
@@ -735,63 +724,56 @@ function UpdatedMaterialsDoc({ img, name, byte, icon }) {
 function RecentTransactions({ dark }) {
   return (
     <>
-      <div className="card">
-        <div className="card-body">
-          <div className="container  px-3">
-            <div className="row justify-content-between align-items-center">
-              <div className="col-8">
-                <p>Recent Transactions</p>
-              </div>
-            </div>
-          </div>
-          <RecentTransactionsApps
-            dark={dark}
-            img={"./img/pinterest.svg"}
-            name={"Pinterest Team"}
-            date={"Jan 23 2022"}
-            status={"Done"}
-            bgcolor={dark ? "#5DC264" : "#F0FAF0"}
-            textcolor={dark ? "#F0FAF0" : "#2D8A39"}
-          />
+      <div className="recent-transactions__title py-3 px-4">
+        <p>Recent Transactions</p>
+      </div>
 
-          <RecentTransactionsApps
-            img={"./img/sketch.svg"}
-            name={"Sketch Team"}
-            date={"Jun 15 2022"}
-            status={"Failed"}
-            bgcolor={dark ? "#F04438" : "#FFF2F0"}
-            textcolor={dark ? "#FFF2F0" : "#E2341D"}
-          />
-          <RecentTransactionsApps
-            img={"./img/gitlab.svg"}
-            name={"Gitlab Team"}
-            date={"Jan 15 2022"}
-            status={"Done"}
-            bgcolor={dark ? "#5DC264" : "#F0FAF0"}
-            textcolor={dark ? "#F0FAF0" : "#2D8A39"}
-          />
-          <RecentTransactionsApps
-            img={"./img/clickup.svg"}
-            name={"Clickup Team"}
-            date={"Jan 15 2022"}
-            status={"Failed"}
-            bgcolor={dark ? "#F04438" : "#FFF2F0"}
-            textcolor={dark ? "#FFF2F0" : "#E2341D"}
-          />
-          <RecentTransactionsApps
-            img={"./img/deliverooo.svg"}
-            name={"Deliverooo Team"}
-            date={"Jan 15 2022"}
-            status={"Done"}
-            bgcolor={dark ? "#5DC264" : "#F0FAF0"}
-            textcolor={dark ? "#F0FAF0" : "#2D8A39"}
-          />
-          <div className="d-flex gap-2 ">
-            <button className="btn text-primary d-flex gap-2 align-items-center">
-              Open <img src="./img/externalLink.svg" alt="" />
-            </button>
-          </div>
-        </div>
+      <RecentTransactionsApps
+        dark={dark}
+        img={"./img/pinterest.svg"}
+        name={"Pinterest Team"}
+        date={"Jan 23 2022"}
+        status={"Done"}
+        bgcolor={dark ? "#5DC264" : "#F0FAF0"}
+        textcolor={dark ? "#F0FAF0" : "#2D8A39"}
+      />
+
+      <RecentTransactionsApps
+        img={"./img/sketch.svg"}
+        name={"Sketch Team"}
+        date={"Jun 15 2022"}
+        status={"Failed"}
+        bgcolor={dark ? "#F04438" : "#FFF2F0"}
+        textcolor={dark ? "#FFF2F0" : "#E2341D"}
+      />
+      <RecentTransactionsApps
+        img={"./img/gitlab.svg"}
+        name={"Gitlab Team"}
+        date={"Jan 15 2022"}
+        status={"Done"}
+        bgcolor={dark ? "#5DC264" : "#F0FAF0"}
+        textcolor={dark ? "#F0FAF0" : "#2D8A39"}
+      />
+      <RecentTransactionsApps
+        img={"./img/clickup.svg"}
+        name={"Clickup Team"}
+        date={"Jan 15 2022"}
+        status={"Failed"}
+        bgcolor={dark ? "#F04438" : "#FFF2F0"}
+        textcolor={dark ? "#FFF2F0" : "#E2341D"}
+      />
+      <RecentTransactionsApps
+        img={"./img/deliverooo.svg"}
+        name={"Deliverooo Team"}
+        date={"Jan 15 2022"}
+        status={"Done"}
+        bgcolor={dark ? "#5DC264" : "#F0FAF0"}
+        textcolor={dark ? "#F0FAF0" : "#2D8A39"}
+      />
+      <div className="d-flex gap-2 ">
+        <button className="btn text-primary d-flex gap-2 align-items-center">
+          Open <img src="./img/externalLink.svg" alt="" />
+        </button>
       </div>
     </>
   );
@@ -806,44 +788,54 @@ function RecentTransactionsApps({
   textcolor,
 }) {
   return (
-    <div className="container" style={{ padding: 16 }}>
-      <div className="row justify-content-between align-items-center">
-        <div className="col-2 p-0">
+    <>
+      <div
+        className="recent-transactions-list__item py-3 d-flex align-items-center justify-content-between"
+        style={{ padding: 16 }}
+      >
+        <div className="d-flex align-items-center gap-3">
           <img src={img} />
-        </div>
-        <div className="col-8 p-0">
-          <div className="container p-0 ">
-            <div className="row ">
-              <p className="m-0">{name}</p>
-              <p className="m-0">{date}</p>
-            </div>
+          <div>
+            <p className="m-0">{name}</p>
+            <p className="m-0">{date}</p>
           </div>
         </div>
         <div className="col-2 p-0">
-          <span
-            className="badge"
-            style={{ backgroundColor: bgcolor, color: textcolor }}
+          <button
+            className="badge done px-2 "
+            style={{
+              backgroundColor: bgcolor,
+              color: textcolor,
+              paddingBlock: 2,
+              border: 0,
+            }}
           >
             {status}
-          </span>
+          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
 function UserSectionDetail({ dark }) {
   return (
-    <div className="d-flex flex-wrap d-md-row p-0  ">
-      <div className="row " style={{ gap: 16 }}>
-        <div className="col">
+    <div className="d-flex flex*wrap gap-xl-4 gap-2">
+      <div className="flex-fill">
+        <div className="card-general">
           <LookscoutTeam dark={dark} />
         </div>
-        <div className="col">
+      </div>
+      <div className="flex-fill">
+        <div className="card-general">
           <UpdatedMaterials dark={dark} />
         </div>
-        <div className="col">
-          <RecentTransactions dark={dark} />
+      </div>
+      <div className="flex-fill">
+        <div className="card-general">
+          <div className="d-flex flex-column">
+            <RecentTransactions dark={dark} />
+          </div>
         </div>
       </div>
     </div>
@@ -931,3 +923,5 @@ function ApexChart() {
     </div>
   );
 }
+
+<div></div>;

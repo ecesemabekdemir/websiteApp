@@ -37,7 +37,9 @@ body {
 
 
 .upContent {
+  font-weight: 400;
   color: #5F6D7E;
+  font-size: 16px;
 }
 
 .graphicTitle {
@@ -64,4 +66,51 @@ body.dark-mode {
 .svg-icon {
   fill: var(--svg-color);
 }
- 
+
+
+.sidebar_all {
+  position: sticky;
+  top:0;
+  left:0;
+  min-width: 83px;
+  z-index: 2;
+  height: 100vh;
+}
+.sidebar-list {
+  height: 100vh;
+}
+.sidebar__bottom {
+margin-bottom: 32px;
+}
+.sidebar-list__item {
+  padding: 12px;
+  cursor: pointer;
+}
+.canvas-list__item {
+  gap: 12px;
+  padding: 12px 28px;
+  cursor: pointer;
+}
+
+.canvas-list__input {
+  position: relative;
+  margin: 32px 28px;
+}
+
+.canvas__title {
+  padding: 12px 28px;
+  margin-top: 16px;
+}
+
+.card-general {
+  border: 1px solid #EAEBF0;
+  border-radius: 10px;
+  box-shadow: 0px 1px 2px 0px #1018280A;
+
+}
+
+button span {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
