@@ -45,13 +45,11 @@ export default function App() {
     >
       <div className="d-flex">
         <Nav handleopenDiv={handleopenDiv} setDark={setDark} dark={dark} />
-        <div className="canvas_all-list px-3 pt-3 d-flex flex-column justify-content-between">
-          <div className="canvas_all d-none  d-lg-block border-end show">
-            <SideNav
-              handleclosediv={handleclosediv}
-              handleopenDiv={handleopenDiv}
-            />
-          </div>
+        <div className="canvas_all d-none  d-lg-block border-end show">
+          <SideNav
+            handleclosediv={handleclosediv}
+            handleopenDiv={handleopenDiv}
+          />
         </div>
 
         <div className="screen_side flex-grow-1">
@@ -197,15 +195,15 @@ function Nav({ handleopenDiv, dark, setDark }) {
 
 function SideNav({ handleclosediv, handleopenDiv }) {
   return (
-    <div
-      className="canvas d-flex flex-column justify-content-between"
-      style={{
-        width: 315,
-        overflowY: "auto",
-      }}
-    >
-      <div className="canvas-list__top d-flex flex-column gap-1">
-        <div className="mb-3">
+    <>
+      <div
+        className="canvas d-flex flex-column justify-content-between"
+        style={{
+          width: 315,
+          overflowY: "auto",
+        }}
+      >
+        <div className="canvas__top">
           <div
             className="canvas__title d-flex align-items-center gap-2"
             onClick={handleclosediv}
@@ -221,94 +219,117 @@ function SideNav({ handleclosediv, handleopenDiv }) {
               placeholder="search here..."
             />
           </div>
-        </div>
-        <div role="button">
-          <div className="canvas-list flex-columun gap-1 mb-3">
-            <div className="canvas-list__item d-flex align-items-center">
-              <div
-                className="canvas-list__img"
-                onClick={handleopenDiv}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  src="./img/horizontal2.svg"
-                  alt="General"
-                  width={22}
-                  height={22}
-                />
+          <div role="button">
+            <div className="canvas-list  flex-columun gap-1 mb-3">
+              <div className="canvas-list__item d-flex align-items-center">
+                <div
+                  className="canvas-list__img"
+                  onClick={handleopenDiv}
+                  style={{ cursor: "pointer" }}
+                >
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 22 22"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_5467_39477)">
+                      <path
+                        d="M8.24984 0.916748L13.7498 0.916748C16.3167 0.916748 17.6002 0.916748 18.5806 1.4163C19.443 1.85572 20.1442 2.55688 20.5836 3.41929C21.0832 4.39972 21.0832 5.68317 21.0832 8.25008V13.7501C21.0832 16.317 21.0832 17.6004 20.5836 18.5809C20.1442 19.4433 19.443 20.1444 18.5806 20.5839C17.6002 21.0834 16.3167 21.0834 13.7498 21.0834H8.24984M8.24984 0.916748C5.68293 0.916748 4.39948 0.916748 3.41905 1.4163C2.55664 1.85572 1.85548 2.55688 1.41606 3.41929C0.916504 4.39972 0.916504 5.68317 0.916504 8.25008L0.916504 13.7501C0.916504 16.317 0.916504 17.6004 1.41606 18.5809C1.85548 19.4433 2.55664 20.1444 3.41905 20.5839C4.39948 21.0834 5.68293 21.0834 8.24984 21.0834M8.24984 0.916748L8.24984 21.0834M8.24984 11.0001L21.9998 11.0001"
+                        stroke="#5F6D7E"
+                        stroke-width="1.67"
+                        stroke-linecap="round"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_5467_39477">
+                        <rect width="22" height="22" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
+                <a href="#">General</a>
               </div>
-              <a href="#">General</a>
-            </div>
-            <div className="canvas-list__item d-flex align-items-center">
-              <div className="canvas-list__img">
-                <img
-                  src="./img/messages.svg"
-                  alt="Messages"
-                  width={22}
-                  height={22}
-                />
+              <div className="canvas-list__item d-flex align-items-center">
+                <div className="canvas-list__img">
+                  <img
+                    src="./img/messages.svg"
+                    alt="Messages"
+                    width={22}
+                    height={22}
+                  />
+                </div>
+                <a href="#">Messages</a>
               </div>
-              <a href="#">Messages</a>
-            </div>
-            <div className="canvas-list__item d-flex align-items-center">
-              <div className="canvas-list__img">
-                <img
-                  src="./img/notification.svg"
-                  alt="Notification"
-                  width={22}
-                  height={22}
-                />
+              <div className="canvas-list__item d-flex align-items-center">
+                <div className="canvas-list__img">
+                  <img
+                    src="./img/notification.svg"
+                    alt="Notification"
+                    width={22}
+                    height={22}
+                  />
+                </div>
+                <a href="#">Notification</a>
               </div>
-              <a href="#">Notification</a>
-            </div>
-            <div className="canvas-list__item d-flex align-items-center">
-              <div className="canvas-list__img">
-                <img src="./img/users.svg" alt="Users" width={22} height={22} />
+              <div className="canvas-list__item d-flex align-items-center">
+                <div className="canvas-list__img">
+                  <img
+                    src="./img/users.svg"
+                    alt="Users"
+                    width={22}
+                    height={22}
+                  />
+                </div>
+                <div className="col-md-10">
+                  <a href="#">Users</a>
+                </div>
               </div>
-              <div className="col-md-10">
-                <a href="#">Users</a>
+              <div className="canvas-list__item d-flex align-items-center">
+                <div className="canvas-list__img">
+                  <img
+                    src="./img/events-circle.svg"
+                    alt="Events & Logs"
+                    width={22}
+                    height={22}
+                  />
+                </div>
+                <a href="#">Events & Logs</a>
               </div>
-            </div>
-            <div className="canvas-list__item d-flex align-items-center">
-              <div className="canvas-list__img">
-                <img
-                  src="./img/events-circle.svg"
-                  alt="Events & Logs"
-                  width={22}
-                  height={22}
-                />
+              <div className="canvas-list__item d-flex align-items-center">
+                <div className="canvas-list__img">
+                  <img
+                    src="./img/organization.svg"
+                    alt="Organization"
+                    width={22}
+                    height={22}
+                  />
+                </div>
+                <a href="#">Organization</a>
               </div>
-              <a href="#">Events & Logs</a>
-            </div>
-            <div className="canvas-list__item d-flex align-items-center">
-              <div className="canvas-list__img">
-                <img
-                  src="./img/organization.svg"
-                  alt="Organization"
-                  width={22}
-                  height={22}
-                />
+              <div className="canvas-list__item d-flex align-items-center">
+                <div className="canvas-list__img">
+                  <img
+                    src="./img/user-teams.svg"
+                    alt="Teams"
+                    width={22}
+                    height={22}
+                  />
+                </div>
+                <a href="#">Teams</a>
               </div>
-              <a href="#">Organization</a>
-            </div>
-            <div className="canvas-list__item d-flex align-items-center">
-              <div className="canvas-list__img">
-                <img
-                  src="./img/user-teams.svg"
-                  alt="Teams"
-                  width={22}
-                  height={22}
-                />
-              </div>
-              <a href="#">Teams</a>
             </div>
           </div>
         </div>
+        <div className="flex-grow-1"></div>
+        <div className="canvas__bottom">
+          <div className="canvas-list__bottom d-flex flex-column gap-1 mt-auto">
+            <SubscriptionPlan />
+          </div>
+        </div>
       </div>
-      <div className="canvas-list__bottom d-flex flex-column gap-1 mt-auto">
-        <SubscriptionPlan />
-      </div>
-    </div>
+    </>
   );
 }
 
@@ -811,7 +832,7 @@ function RecentTransactionsApps({
 
 function UserSectionDetail({ dark }) {
   return (
-    <div className="d-flex flex-wrap gap-xl-4 gap-3">
+    <div className="d-flex flex-wrap gap-xl-3 gap-3">
       <div className="flex-fill">
         <div className="card-general">
           <LookscoutTeam dark={dark} />

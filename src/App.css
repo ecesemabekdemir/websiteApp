@@ -132,6 +132,7 @@ body.dark-mode {
   gap: 12px;
   padding: 12px 28px;
   cursor: pointer;
+  border-left:3px solid transparent;
 }
 
 .canvas-list__input {
@@ -194,7 +195,8 @@ margin-top: 32px;
 }
 
 .border-bottom {
-  border-bottom: 1px solid #EAEBF0;
+  border: 1px solid #EAEBF0;
+
 
 }
 
@@ -202,4 +204,21 @@ h3 {
   font-size: 16px;
   font-weight: 500;
 
+}
+
+.canvas-list__item:hover {
+  border-left:3px solid #437ef7;
+  background-color: #f3f9fe;;
+}
+
+.canvas-list__item:hover {
+
+  a {
+    color: #437ef7;
+  }
+
+  svg {
+    fiil:#437ef7;
+  }
+ 
 }
