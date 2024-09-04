@@ -3,8 +3,14 @@ import "./App.css";
 import ReactApexChart from "react-apexcharts";
 
 export default function App() {
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(
+    () => localStorage.getItem("dark") === "true"
+  );
   const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("dark", dark);
+  }, [dark]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -23,34 +29,35 @@ export default function App() {
   }, []);
 
   function handleopenDiv() {
-    let sidenav = document.querySelector(".canvas");
+    let canvas = document.querySelector(".canvas_all");
     let content = document.querySelector(".screen_side");
-    sidenav.style.width = "250px";
+    canvas.style.width = "250px";
+    canvas.style.display = "flex";
     content.style.width = "calc(100% - 273px)";
-    sidenav.style.transition = "all .2s";
+    canvas.style.transition = "all .3s";
   }
   function handleclosediv() {
-    let sidenav = document.querySelector(".canvas");
+    let canvas = document.querySelector(".canvas_all");
     let content = document.querySelector("screen_side");
-    sidenav.style.width = "0px";
+    canvas.style.width = "0px";
+    canvas.style.display = "none";
     content.style.width = "calc(100% -1px)";
-    sidenav.style.transition = "all .2s";
+    canvas.style.transition = "all .3s";
   }
 
   return (
     <div
-      style={{ maxWidth: 1440 }}
       className={`main ${dark ? "bg-dark" : "bg-light"}`}
       data-bs-theme={dark ? "dark" : "light"}
     >
       <div className="d-flex">
         <Nav handleopenDiv={handleopenDiv} setDark={setDark} dark={dark} />
-        <div className="canvas_all d-none d-lg-block border-end">
-          <SideNav
-            handleclosediv={handleclosediv}
-            handleopenDiv={handleopenDiv}
-          />
-        </div>
+
+        <SideNav
+          dark={dark}
+          handleclosediv={handleclosediv}
+          handleopenDiv={handleopenDiv}
+        />
 
         <div className="screen_side flex-grow-1">
           <div className=" p-3">
@@ -71,14 +78,24 @@ export default function App() {
 function ApexCard({ dark }) {
   return (
     <>
-      <div className="card-general chart" style={{ marginBlock: 32 }}>
+      <div
+        className="card-general chart"
+        style={{ marginBlock: 32 }}
+        data-bs-theme={dark ? "dark" : "light"}
+      >
         <div
           className="chart__title d-flex py-3 justify-content-between align-items-center"
           style={{ paddingInline: 20 }}
         >
-          <h3 className="graphicTitle">Advanced Graphic</h3>
+          <h3 className={`graphicTitle ${dark ? "text-white" : "text-dark"}`}>
+            Advanced Graphic
+          </h3>
           <button className="border border-0 bg-transparent">
-            <img src="./img/dots menu.svg" alt="" />
+            <img
+              src="./img/dots menu.svg"
+              className={`${dark ? "dark-mode-img" : ""}`}
+              alt=""
+            />
           </button>
         </div>
         <div
@@ -146,7 +163,7 @@ function Nav({ handleopenDiv, dark, setDark }) {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <g clip-path="url(#clip0_5467_39442)">
+              <g clipPath="url(#clip0_5467_39442)">
                 <path
                   d="M22.2929 23.7071C22.6834 24.0976 23.3166 24.0976 23.7071 23.7071C24.0976 23.3166 24.0976 22.6834 23.7071 22.2929L22.2929 23.7071ZM18.1176 10.0588C18.1176 14.5096 14.5096 18.1176 10.0588 18.1176V20.1176C15.6142 20.1176 20.1176 15.6142 20.1176 10.0588H18.1176ZM10.0588 18.1176C5.60806 18.1176 2 14.5096 2 10.0588H0C0 15.6142 4.50349 20.1176 10.0588 20.1176V18.1176ZM2 10.0588C2 5.60806 5.60806 2 10.0588 2V0C4.50349 0 0 4.50349 0 10.0588H2ZM10.0588 2C14.5096 2 18.1176 5.60806 18.1176 10.0588H20.1176C20.1176 4.50349 15.6142 0 10.0588 0V2ZM15.8223 17.2365L22.2929 23.7071L23.7071 22.2929L17.2365 15.8223L15.8223 17.2365Z"
                   fill="#5F6D7E"
@@ -170,12 +187,12 @@ function Nav({ handleopenDiv, dark, setDark }) {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <g clip-path="url(#clip0_5467_39477)">
+              <g clipPath="url(#clip0_5467_39477)">
                 <path
                   d="M8.24984 0.916748L13.7498 0.916748C16.3167 0.916748 17.6002 0.916748 18.5806 1.4163C19.443 1.85572 20.1442 2.55688 20.5836 3.41929C21.0832 4.39972 21.0832 5.68317 21.0832 8.25008V13.7501C21.0832 16.317 21.0832 17.6004 20.5836 18.5809C20.1442 19.4433 19.443 20.1444 18.5806 20.5839C17.6002 21.0834 16.3167 21.0834 13.7498 21.0834H8.24984M8.24984 0.916748C5.68293 0.916748 4.39948 0.916748 3.41905 1.4163C2.55664 1.85572 1.85548 2.55688 1.41606 3.41929C0.916504 4.39972 0.916504 5.68317 0.916504 8.25008L0.916504 13.7501C0.916504 16.317 0.916504 17.6004 1.41606 18.5809C1.85548 19.4433 2.55664 20.1444 3.41905 20.5839C4.39948 21.0834 5.68293 21.0834 8.24984 21.0834M8.24984 0.916748L8.24984 21.0834M8.24984 11.0001L21.9998 11.0001"
-                  stroke="#5F6D7E"
-                  stroke-width="1.67"
-                  stroke-linecap="round"
+                  stroke={dark ? "#fff" : "#5F6D7E"}
+                  strokeWidth="1.67"
+                  strokeLinecap="round"
                 />
               </g>
               <defs>
@@ -195,9 +212,9 @@ function Nav({ handleopenDiv, dark, setDark }) {
             >
               <path
                 d="M3 10H21M9 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.0799 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.0799 21 6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.0799 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H15M9 5H15M9 5V4.5C9 3.67157 8.32843 3 7.5 3C6.67157 3 6 3.67157 6 4.5V5M15 5V4.5C15 3.67157 15.6716 3 16.5 3C17.3284 3 18 3.67157 18 4.5V5"
-                stroke="#5F6D7E"
-                stroke-width="2"
-                stroke-linecap="round"
+                stroke={dark ? "#fff" : "#5F6D7E"}
+                strokeWidth="2"
+                strokeLinecap="round"
               />
             </svg>
           </button>
@@ -211,18 +228,18 @@ function Nav({ handleopenDiv, dark, setDark }) {
             >
               <path
                 d="M2 14C2 12.8954 2.89543 12 4 12C5.10457 12 6 12.8954 6 14V18C6 19.1046 5.10457 20 4 20C2.89543 20 2 19.1046 2 18V14Z"
-                stroke="#5F6D7E"
-                stroke-width="2"
+                stroke={dark ? "#fff" : "#5F6D7E"}
+                strokeWidth="2"
               />
               <path
                 d="M10 6C10 4.89543 10.8954 4 12 4C13.1046 4 14 4.89543 14 6V18C14 19.1046 13.1046 20 12 20C10.8954 20 10 19.1046 10 18V6Z"
-                stroke="#5F6D7E"
-                stroke-width="2"
+                stroke={dark ? "#fff" : "#5F6D7E"}
+                strokeWidth="2"
               />
               <path
                 d="M18 10C18 8.89543 18.8954 8 20 8C21.1046 8 22 8.89543 22 10V18C22 19.1046 21.1046 20 20 20C18.8954 20 18 19.1046 18 18V10Z"
-                stroke="#5F6D7E"
-                stroke-width="2"
+                stroke={dark ? "#fff" : "#5F6D7E"}
+                strokeWidth="2"
               />
             </svg>
           </button>
@@ -233,16 +250,29 @@ function Nav({ handleopenDiv, dark, setDark }) {
             className={`btn border-0`}
             onClick={() => setDark(!dark)}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="currentColor"
-              class="bi bi-brightness-high"
-              viewBox="0 0 16 16"
-            >
-              <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
-            </svg>
+            {dark ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#5F6D7E"
+                class="bi bi-moon"
+                viewBox="0 0 16 16"
+              >
+                <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="currentColor"
+                className="bi bi-brightness-high"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+              </svg>
+            )}
           </button>
           <button className="sidebar-list__item border-0 bg-transparent">
             <svg
@@ -255,12 +285,12 @@ function Nav({ handleopenDiv, dark, setDark }) {
               <path
                 d="M9.00033 3.7583C9.00033 2.78722 9.78755 2 10.7586 2H13.242C14.2131 2 15.0003 2.78722 15.0003 3.75831C15.0003 5.11186 16.4656 5.95781 17.6378 5.28104C18.4788 4.79548 19.5542 5.08362 20.0398 5.92462L21.2814 8.07525C21.767 8.91625 21.4788 9.99162 20.6378 10.4772C19.4656 11.154 19.4656 12.8459 20.6378 13.5227C21.4788 14.0082 21.767 15.0836 21.2814 15.9246L20.0398 18.0752C19.5542 18.9162 18.4788 19.2044 17.6378 18.7188C16.4656 18.0421 15.0003 18.8881 15.0003 20.2416C15.0003 21.2127 14.2131 22 13.242 22H10.7587C9.78757 22 9.00033 21.2127 9.00033 20.2416C9.00033 18.8881 7.53506 18.0421 6.36285 18.7188C5.52186 19.2044 4.44648 18.9162 3.96094 18.0753L2.71926 15.9246C2.23371 15.0836 2.52186 14.0082 3.36286 13.5227C4.53508 12.8459 4.53508 11.154 3.36286 10.4772C2.52186 9.99162 2.23371 8.91624 2.71926 8.07525L3.96094 5.9246C4.44649 5.08361 5.52187 4.79547 6.36286 5.28102C7.53506 5.95779 9.00033 5.11184 9.00033 3.7583Z"
                 stroke="#5F6D7E"
-                stroke-width="2"
+                strokeWidth="2"
               />
               <path
                 d="M16.0003 12C16.0003 14.2091 14.2095 16 12.0003 16C9.79119 16 8.00033 14.2091 8.00033 12C8.00033 9.79086 9.79119 8 12.0003 8C14.2095 8 16.0003 9.79086 16.0003 12Z"
                 stroke="#5F6D7E"
-                stroke-width="2"
+                strokeWidth="2"
               />
             </svg>
           </button>
@@ -284,25 +314,24 @@ function Nav({ handleopenDiv, dark, setDark }) {
   );
 }
 
-function SideNav({ handleclosediv, handleopenDiv }) {
+function SideNav({ handleclosediv, handleopenDiv, dark,bgcolor }) {
   return (
-    <>
-      <div
-        className=" d-flex flex-column"
-        style={{
-          width: 315
-        
-        }}
-      >
+    <div className="canvas_all h-100 position-sticky top-0 border-end show">
+      <div className="canvas  flex-column border-end ">
         <div className="canvas__top">
           <div
-            className="canvas__title d-flex align-items-center gap-2"
+            className={`canvas__title d-flex align-items-center gap-2 ${
+              dark ? "dark-mode-svg" : ""
+            }`}
             onClick={handleclosediv}
             style={{ cursor: "pointer" }}
           >
             <img src="./img/arrowLeft.svg" alt="Arrow Left" />
-            Lookscout Dashboard
+            <h3 className={`${dark ? "text-white" : "text-dark"}`}>
+              Lookscout Dashboard
+            </h3>
           </div>
+
           <div className="canvas-list__input">
             <input
               type="text"
@@ -325,12 +354,12 @@ function SideNav({ handleclosediv, handleopenDiv }) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0_5467_39477)">
+                    <g clipPath="url(#clip0_5467_39477)">
                       <path
                         d="M8.24984 0.916748L13.7498 0.916748C16.3167 0.916748 17.6002 0.916748 18.5806 1.4163C19.443 1.85572 20.1442 2.55688 20.5836 3.41929C21.0832 4.39972 21.0832 5.68317 21.0832 8.25008V13.7501C21.0832 16.317 21.0832 17.6004 20.5836 18.5809C20.1442 19.4433 19.443 20.1444 18.5806 20.5839C17.6002 21.0834 16.3167 21.0834 13.7498 21.0834H8.24984M8.24984 0.916748C5.68293 0.916748 4.39948 0.916748 3.41905 1.4163C2.55664 1.85572 1.85548 2.55688 1.41606 3.41929C0.916504 4.39972 0.916504 5.68317 0.916504 8.25008L0.916504 13.7501C0.916504 16.317 0.916504 17.6004 1.41606 18.5809C1.85548 19.4433 2.55664 20.1444 3.41905 20.5839C4.39948 21.0834 5.68293 21.0834 8.24984 21.0834M8.24984 0.916748L8.24984 21.0834M8.24984 11.0001L21.9998 11.0001"
-                        stroke="#5F6D7E"
-                        stroke-width="1.67"
-                        stroke-linecap="round"
+                        stroke={dark ? "#fff" : "#5F6D7E"}
+                        strokeWidth="1.67"
+                        strokeLinecap="round"
                       />
                     </g>
                     <defs>
@@ -340,7 +369,9 @@ function SideNav({ handleclosediv, handleopenDiv }) {
                     </defs>
                   </svg>
                 </div>
-                <a href="#">General</a>
+                <a className={`${dark ? "text-white" : "text-dark"}`} href="#">
+                  General
+                </a>
               </div>
               <div className="canvas-list__item d-flex align-items-center">
                 <div className="canvas-list__img">
@@ -353,12 +384,14 @@ function SideNav({ handleclosediv, handleopenDiv }) {
                   >
                     <path
                       d="M2.75016 4.58341L9.87461 10.1246C10.5366 10.6396 11.4637 10.6396 12.1257 10.1246L19.2502 4.58341M4.76683 18.3334H17.2335C18.2603 18.3334 18.7736 18.3334 19.1658 18.1336C19.5108 17.9578 19.7912 17.6774 19.967 17.3324C20.1668 16.9402 20.1668 16.4268 20.1668 15.4001V6.60008C20.1668 5.57332 20.1668 5.05994 19.967 4.66777C19.7912 4.3228 19.5108 4.04234 19.1658 3.86657C18.7736 3.66675 18.2603 3.66675 17.2335 3.66675H4.76683C3.74007 3.66675 3.22668 3.66675 2.83451 3.86657C2.48955 4.04234 2.20909 4.3228 2.03332 4.66777C1.8335 5.05994 1.8335 5.57332 1.8335 6.60008V15.4001C1.8335 16.4268 1.8335 16.9402 2.03332 17.3324C2.20909 17.6774 2.48955 17.9578 2.83451 18.1336C3.22668 18.3334 3.74007 18.3334 4.76683 18.3334Z"
-                      stroke="#5F6D7E"
-                      stroke-width="1.67"
+                      stroke={dark ? "#fff" : "#5F6D7E"}
+                      strokeWidth="1.67"
                     />
                   </svg>
                 </div>
-                <a href="#">Messages</a>
+                <a className={`${dark ? "text-white" : "text-dark"}`} href="#">
+                  Messages
+                </a>
               </div>
               <div className="canvas-list__item d-flex align-items-center">
                 <div className="canvas-list__img">
@@ -371,13 +404,15 @@ function SideNav({ handleclosediv, handleopenDiv }) {
                   >
                     <path
                       d="M8.25016 18.0086C8.92203 18.7698 9.90503 19.2499 11.0002 19.2499C12.0953 19.2499 13.0783 18.7698 13.7502 18.0086M14.6668 1.77417C16.8549 2.86155 18.4917 4.89178 19.0457 7.33328M16.4978 12.0824V9.1667C16.4978 6.12127 14.0456 3.6667 11.0002 3.6667C7.95474 3.6667 5.46933 6.01663 5.46933 9.1667V12.0627C5.46933 12.5056 5.4003 12.9456 5.2649 13.3658L4.58797 15.4663C4.56943 15.5238 4.61082 15.5832 4.66944 15.5832H17.2914C17.3534 15.5832 17.3974 15.5229 17.3784 15.4639L16.6968 13.349C16.5649 12.9398 16.4978 12.5124 16.4978 12.0824Z"
-                      stroke="#5F6D7E"
-                      stroke-width="1.67"
-                      stroke-linecap="round"
+                      stroke={dark ? "#fff" : "#5F6D7E"}
+                      strokeWidth="1.67"
+                      strokeLinecap="round"
                     />
                   </svg>
                 </div>
-                <a href="#">Notification</a>
+                <a className={`${dark ? "text-white" : "text-dark"}`} href="#">
+                  Notification
+                </a>
               </div>
               <div className="canvas-list__item d-flex align-items-center">
                 <div className="canvas-list__img">
@@ -390,13 +425,18 @@ function SideNav({ handleclosediv, handleopenDiv }) {
                   >
                     <path
                       d="M17.9736 17.5943C17.61 16.8819 17.1302 16.2136 16.5341 15.6176C13.4777 12.5611 8.52214 12.5611 5.46567 15.6176C4.8696 16.2136 4.38978 16.8819 4.0262 17.5943M0.916504 11.0001C0.916504 5.43121 5.43097 0.916748 10.9998 0.916748C16.5687 0.916749 21.0832 5.43121 21.0832 11.0001C21.0832 16.569 16.5687 21.0834 10.9998 21.0834C5.43097 21.0834 0.916503 16.5689 0.916504 11.0001ZM14.6665 9.16675C14.6665 11.1918 13.0249 12.8334 10.9998 12.8334C8.97479 12.8334 7.33317 11.1918 7.33317 9.16675C7.33317 7.1417 8.97479 5.50008 10.9998 5.50008C13.0249 5.50008 14.6665 7.1417 14.6665 9.16675Z"
-                      stroke="#5F6D7E"
-                      stroke-width="1.67"
+                      stroke={dark ? "#fff" : "#5F6D7E"}
+                      strokeWidth="1.67"
                     />
                   </svg>
                 </div>
                 <div className="col-md-10">
-                  <a href="#">Users</a>
+                  <a
+                    className={`${dark ? "text-white" : "text-dark"}`}
+                    href="#"
+                  >
+                    Users
+                  </a>
                 </div>
               </div>
               <div className="canvas-list__item d-flex align-items-center">
@@ -408,16 +448,16 @@ function SideNav({ handleclosediv, handleopenDiv }) {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0_5467_39502)">
+                    <g clipPath="url(#clip0_5467_39502)">
                       <path
                         d="M12.9917 7.33776L11.7886 5.2435C11.4376 4.63244 10.557 4.62952 10.202 5.23823L8.91995 7.43598C8.65571 7.88896 8.21013 8.2071 7.6959 8.30994L6.11583 8.62596C5.40982 8.76716 5.13472 9.62982 5.62864 10.1537L6.75996 11.3535C7.18155 11.8007 7.35106 12.4293 7.21142 13.0278L6.67549 15.3246C6.49205 16.1108 7.34097 16.7331 8.0355 16.3215L10.0652 15.1188C10.6415 14.7772 11.3582 14.7772 11.9345 15.1188L13.9642 16.3215C14.6587 16.7331 15.5076 16.1108 15.3242 15.3246L14.7804 12.9943C14.6451 12.4144 14.7999 11.8048 15.1956 11.3597L16.3548 10.0556C16.8251 9.52651 16.5436 8.68662 15.8494 8.54778L14.2218 8.22226C13.7034 8.11858 13.255 7.79616 12.9917 7.33776Z"
-                        stroke="#437EF7"
-                        stroke-width="1.67"
+                        stroke={dark ? "#fff" : "#5F6D7E"}
+                        strokeWidth="1.67"
                       />
                       <path
                         d="M21.0832 11.0001C21.0832 16.569 16.5687 21.0834 10.9998 21.0834C5.43097 21.0834 0.916504 16.569 0.916504 11.0001C0.916504 5.43121 5.43097 0.916748 10.9998 0.916748C16.5687 0.916748 21.0832 5.43121 21.0832 11.0001Z"
-                        stroke="#437EF7"
-                        stroke-width="1.67"
+                        stroke={dark ? "#fff" : "#5F6D7E"}
+                        strokeWidth="1.67"
                       />
                     </g>
                     <defs>
@@ -427,7 +467,9 @@ function SideNav({ handleclosediv, handleopenDiv }) {
                     </defs>
                   </svg>
                 </div>
-                <a href="#">Events & Logs</a>
+                <a className={`${dark ? "text-white" : "text-dark"}`} href="#">
+                  Events & Logs
+                </a>
               </div>
               <div className="canvas-list__item d-flex align-items-center">
                 <div className="canvas-list__img">
@@ -440,11 +482,13 @@ function SideNav({ handleclosediv, handleopenDiv }) {
                   >
                     <path
                       d="M14.8781 14.511L15.6881 14.3085L15.6881 14.3085L14.8781 14.511ZM14.6947 13.7777L13.8847 13.9802L13.8847 13.9802L14.6947 13.7777ZM1.30594 13.7777L0.495868 13.5752L1.30594 13.7777ZM1.1226 14.511L1.93267 14.7135L1.1226 14.511ZM1.94432 12.7383L1.62089 11.9685H1.62089L1.94432 12.7383ZM1.56563 13.034L2.23401 13.5345H2.23401L1.56563 13.034ZM14.4351 13.034L13.7667 13.5345L13.7667 13.5345L14.4351 13.034ZM14.0564 12.7383L14.3798 11.9685H14.3798L14.0564 12.7383ZM14.6346 16.2007L14.202 15.4866H14.2019L14.6346 16.2007ZM15.0354 15.6874L15.8332 15.934V15.934L15.0354 15.6874ZM1.36605 16.2007L1.79873 15.4866H1.79873L1.36605 16.2007ZM0.96526 15.6874L1.76303 15.4409L1.76303 15.4409L0.96526 15.6874ZM7.34443 1.07804L6.971 0.331188V0.331188L7.34443 1.07804ZM1.97883 3.76083L2.35226 4.50768L1.97883 3.76083ZM1.32292 5.72857L0.576074 6.10199L0.576074 6.10199L1.32292 5.72857ZM1.48233 6.04739L2.22918 5.67397L2.22918 5.67397L1.48233 6.04739ZM14.5184 6.04739L13.7715 5.67397L13.7715 5.67397L14.5184 6.04739ZM14.6778 5.72857L13.9309 5.35515L13.9309 5.35515L14.6778 5.72857ZM14.0218 3.76083L14.3953 3.01399L14.0218 3.76083ZM8.65625 1.07804L9.02968 0.331188L8.65625 1.07804ZM15.0205 4.81973L15.8555 4.81339V4.81339L15.0205 4.81973ZM14.8413 4.28227L14.1695 4.77819L14.1695 4.77819L14.8413 4.28227ZM1.15936 4.28227L0.487573 3.78636L0.487573 3.78636L1.15936 4.28227ZM0.980204 4.81973L0.145228 4.81339V4.81339L0.980204 4.81973ZM14.3501 6.23755L14.0778 5.44819L14.0778 5.44819L14.3501 6.23755ZM14.4357 6.18463L15.02 6.78118L15.02 6.78117L14.4357 6.18463ZM1.65058 6.23755L1.92285 5.44819H1.92285L1.65058 6.23755ZM1.56495 6.18463L0.980687 6.78117L0.980691 6.78117L1.56495 6.18463ZM7.83131 0.873996L7.67734 0.0533144L7.83131 0.873996ZM8.16937 0.873996L8.32334 0.0533144L8.16937 0.873996ZM2.58201 11.7501C2.58201 12.2112 2.95585 12.5851 3.41701 12.5851C3.87817 12.5851 4.25201 12.2112 4.25201 11.7501H2.58201ZM4.25201 6.25008C4.25201 5.78892 3.87817 5.41508 3.41701 5.41508C2.95585 5.41508 2.58201 5.78892 2.58201 6.25008H4.25201ZM7.16534 11.7501C7.16534 12.2112 7.53918 12.5851 8.00034 12.5851C8.4615 12.5851 8.83534 12.2112 8.83534 11.7501H7.16534ZM8.83534 7.16675C8.83534 6.70559 8.4615 6.33175 8.00034 6.33175C7.53918 6.33175 7.16534 6.70559 7.16534 7.16675H8.83534ZM11.7487 11.7501C11.7487 12.2112 12.1225 12.5851 12.5837 12.5851C13.0448 12.5851 13.4187 12.2112 13.4187 11.7501H11.7487ZM13.4187 7.16675C13.4187 6.70559 13.0448 6.33175 12.5837 6.33175C12.1225 6.33175 11.7487 6.70559 11.7487 7.16675H13.4187ZM2.54548 17.1684H13.4552V15.4984H2.54548V17.1684ZM15.6881 14.3085L15.5048 13.5752L13.8847 13.9802L14.068 14.7135L15.6881 14.3085ZM13.2719 11.8317H2.72881V13.5017H13.2719V11.8317ZM0.495868 13.5752L0.312534 14.3085L1.93267 14.7135L2.11601 13.9802L0.495868 13.5752ZM2.72881 11.8317C2.3969 11.8317 1.98426 11.8158 1.62089 11.9685L2.26775 13.5081C2.23701 13.521 2.23105 13.514 2.30714 13.5085C2.39373 13.5022 2.51216 13.5017 2.72881 13.5017V11.8317ZM2.11601 13.9802C2.16855 13.77 2.19776 13.6553 2.22484 13.5728C2.24864 13.5003 2.254 13.5078 2.23401 13.5345L0.897236 12.5335C0.660999 12.849 0.576368 13.2532 0.495868 13.5752L2.11601 13.9802ZM1.62089 11.9685C1.33373 12.0891 1.08393 12.2842 0.897236 12.5335L2.23401 13.5345C2.24272 13.5228 2.25436 13.5137 2.26775 13.5081L1.62089 11.9685ZM15.5048 13.5752C15.4243 13.2532 15.3397 12.849 15.1034 12.5335L13.7667 13.5345C13.7467 13.5078 13.752 13.5003 13.7758 13.5728C13.8029 13.6553 13.8321 13.77 13.8847 13.9802L15.5048 13.5752ZM13.2719 13.5017C13.4885 13.5017 13.607 13.5022 13.6935 13.5085C13.7696 13.514 13.7637 13.521 13.7329 13.5081L14.3798 11.9685C14.0164 11.8158 13.6038 11.8317 13.2719 11.8317V13.5017ZM15.1034 12.5335C14.9168 12.2842 14.667 12.0891 14.3798 11.9685L13.7329 13.5081C13.7463 13.5137 13.758 13.5228 13.7667 13.5345L15.1034 12.5335ZM13.4552 17.1684C13.76 17.1684 14.0436 17.1692 14.2765 17.1486C14.5156 17.1274 14.7985 17.0778 15.0673 16.9149L14.2019 15.4866C14.2518 15.4564 14.2651 15.4731 14.1293 15.4851C13.9873 15.4976 13.7907 15.4984 13.4552 15.4984V17.1684ZM14.068 14.7135C14.1494 15.039 14.1963 15.2299 14.2186 15.3708C14.2399 15.5054 14.2204 15.4966 14.2377 15.4409L15.8332 15.934C15.926 15.6337 15.9056 15.3472 15.8681 15.1101C15.8316 14.8792 15.7621 14.6042 15.6881 14.3085L14.068 14.7135ZM15.0673 16.9149C15.4341 16.6927 15.7066 16.3437 15.8332 15.934L14.2377 15.4409C14.2318 15.46 14.219 15.4762 14.202 15.4866L15.0673 16.9149ZM2.54548 15.4984C2.21 15.4984 2.01338 15.4976 1.87135 15.4851C1.73554 15.4731 1.74885 15.4564 1.79873 15.4866L0.933357 16.9149C1.20221 17.0778 1.48509 17.1274 1.72418 17.1486C1.95704 17.1692 2.24065 17.1684 2.54548 17.1684V15.4984ZM0.312534 14.3085C0.238602 14.6042 0.169071 14.8792 0.13258 15.1101C0.0951144 15.3472 0.0746706 15.6337 0.167494 15.934L1.76303 15.4409C1.78025 15.4966 1.76083 15.5054 1.78211 15.3708C1.80437 15.2299 1.85131 15.039 1.93267 14.7135L0.312534 14.3085ZM1.79873 15.4866C1.78163 15.4762 1.76893 15.46 1.76303 15.4409L0.167494 15.934C0.294114 16.3437 0.566614 16.6927 0.933357 16.9149L1.79873 15.4866ZM1.81029 7.08508H14.1904V5.41508H1.81029V7.08508ZM6.971 0.331188L1.60541 3.01399L2.35226 4.50768L7.71785 1.82488L6.971 0.331188ZM0.576074 6.10199L0.735483 6.42081L2.22918 5.67397L2.06977 5.35515L0.576074 6.10199ZM15.2652 6.42081L15.4246 6.10199L13.9309 5.35515L13.7715 5.67397L15.2652 6.42081ZM14.3953 3.01399L9.02968 0.331188L8.28283 1.82488L13.6484 4.50768L14.3953 3.01399ZM15.4246 6.102C15.5332 5.88473 15.6378 5.67715 15.7106 5.49585C15.7871 5.30547 15.8575 5.07755 15.8555 4.81339L14.1855 4.82607C14.1852 4.78198 14.1989 4.77889 14.1611 4.87312C14.1196 4.97642 14.0519 5.11323 13.9309 5.35515L15.4246 6.102ZM13.6484 4.50768C13.8903 4.62864 14.0266 4.69748 14.1218 4.75521C14.2086 4.80788 14.1957 4.81366 14.1695 4.77819L15.5131 3.78636C15.3562 3.57383 15.1632 3.43369 14.9878 3.3273C14.8207 3.22597 14.6125 3.12262 14.3953 3.01399L13.6484 4.50768ZM15.8555 4.81339C15.8526 4.44349 15.7328 4.08397 15.5131 3.78636L14.1695 4.77819C14.1798 4.79206 14.1854 4.80882 14.1855 4.82607L15.8555 4.81339ZM1.60541 3.01399C1.38814 3.12262 1.17998 3.22597 1.01292 3.3273C0.837483 3.43369 0.644464 3.57383 0.487573 3.78636L1.83114 4.77819C1.80495 4.81366 1.79208 4.80787 1.87892 4.75521C1.97411 4.69748 2.11034 4.62864 2.35226 4.50768L1.60541 3.01399ZM2.06977 5.35515C1.94881 5.11323 1.88113 4.97642 1.83961 4.87312C1.80174 4.77889 1.81551 4.78198 1.81518 4.82607L0.145228 4.81339C0.143223 5.07755 0.213556 5.30547 0.290064 5.49585C0.362925 5.67715 0.46744 5.88473 0.576074 6.10199L2.06977 5.35515ZM0.487573 3.78636C0.267877 4.08397 0.148036 4.44349 0.145228 4.81339L1.81518 4.82607C1.81531 4.80883 1.8209 4.79206 1.83114 4.77819L0.487573 3.78636ZM14.1904 7.08508C14.2121 7.08508 14.4222 7.09597 14.6224 7.02692L14.0778 5.44819C14.1566 5.42102 14.2188 5.41617 14.2355 5.41513C14.2428 5.41468 14.2444 5.41483 14.2347 5.41495C14.2249 5.41507 14.2124 5.41508 14.1904 5.41508V7.08508ZM13.7715 5.67397C13.7617 5.69367 13.7561 5.70481 13.7516 5.71356C13.7471 5.72217 13.7477 5.72067 13.7514 5.71433C13.7598 5.69987 13.7919 5.64641 13.8515 5.5881L15.02 6.78117C15.1713 6.63298 15.2555 6.44026 15.2652 6.42081L13.7715 5.67397ZM14.6224 7.02692C14.7715 6.97548 14.9073 6.89154 15.02 6.78118L13.8515 5.58809C13.9156 5.52526 13.9929 5.47747 14.0778 5.44819L14.6224 7.02692ZM1.81029 5.41508C1.78825 5.41508 1.77579 5.41507 1.76595 5.41495C1.75626 5.41483 1.75787 5.41468 1.76518 5.41513C1.78187 5.41617 1.84407 5.42102 1.92285 5.44819L1.37831 7.02692C1.57852 7.09597 1.78856 7.08508 1.81029 7.08508V5.41508ZM0.735483 6.42081C0.745201 6.44025 0.829387 6.63298 0.980687 6.78117L2.14922 5.5881C2.20876 5.64641 2.24091 5.69988 2.2493 5.71434C2.25298 5.72067 2.25356 5.72218 2.24912 5.71356C2.24461 5.70481 2.23903 5.69367 2.22918 5.67397L0.735483 6.42081ZM1.92285 5.44819C2.00774 5.47747 2.08506 5.52526 2.14922 5.58809L0.980691 6.78117C1.09338 6.89154 1.2292 6.97548 1.37831 7.02692L1.92285 5.44819ZM7.71785 1.82488C7.84574 1.76094 7.91307 1.72757 7.9639 1.70546C8.00668 1.68684 8.00536 1.69091 7.98528 1.69468L7.67734 0.0533144C7.40931 0.1036 7.16822 0.232583 6.971 0.331188L7.71785 1.82488ZM9.02968 0.331188C8.83247 0.232583 8.59137 0.1036 8.32334 0.0533144L8.0154 1.69468C7.99532 1.69091 7.994 1.68684 8.03678 1.70546C8.08761 1.72757 8.15494 1.76094 8.28283 1.82488L9.02968 0.331188ZM7.98528 1.69468C7.99523 1.69281 8.00545 1.69281 8.0154 1.69468L8.32334 0.0533144C8.10987 0.0132638 7.89081 0.0132636 7.67734 0.0533144L7.98528 1.69468ZM4.25201 11.7501V6.25008H2.58201V11.7501H4.25201ZM8.83534 11.7501V7.16675H7.16534V11.7501H8.83534ZM13.4187 11.7501V7.16675H11.7487V11.7501H13.4187Z"
-                      fill="#5F6D7E"
+                      stroke={dark ? "#fff" : "#5F6D7E"}
                     />
                   </svg>
                 </div>
-                <a href="#">Organization</a>
+                <a className={`${dark ? "text-white" : "text-dark"}`} href="#">
+                  Organization
+                </a>
               </div>
               <div className="canvas-list__item d-flex align-items-center">
                 <div className="canvas-list__img">
@@ -457,54 +501,71 @@ function SideNav({ handleclosediv, handleopenDiv }) {
                   >
                     <path
                       d="M5.49984 6.41667H4.58317C4.07691 6.41667 3.6665 6.82707 3.6665 7.33333C3.6665 7.83959 4.07691 8.25 4.58317 8.25H5.49984M5.49984 13.75H4.58317C4.07691 13.75 3.6665 14.1604 3.6665 14.6667C3.6665 15.1729 4.07691 15.5833 4.58317 15.5833H5.49984M18.3332 16.6137C17.0822 14.3592 14.6775 12.8333 11.9165 12.8333C9.15548 12.8333 6.75084 14.3592 5.49984 16.6137M8.43317 19.25H15.3998C16.4266 19.25 16.94 19.25 17.3322 19.0502C17.6771 18.8744 17.9576 18.5939 18.1333 18.249C18.3332 17.8568 18.3332 17.3434 18.3332 16.3167V5.68333C18.3332 4.65657 18.3332 4.14319 18.1333 3.75102C17.9576 3.40605 17.6771 3.12559 17.3322 2.94982C16.94 2.75 16.4266 2.75 15.3998 2.75H8.43317C7.40641 2.75 6.89303 2.75 6.50085 2.94982C6.15589 3.12559 5.87543 3.40605 5.69966 3.75102C5.49984 4.14319 5.49984 4.65657 5.49984 5.68333V16.3167C5.49984 17.3434 5.49984 17.8568 5.69966 18.249C5.87543 18.5939 6.15589 18.8744 6.50085 19.0502C6.89303 19.25 7.40641 19.25 8.43317 19.25ZM14.7009 9.2012C14.7009 10.7391 13.4543 11.9857 11.9164 11.9857C10.3785 11.9857 9.13187 10.7391 9.13187 9.2012C9.13187 7.66335 10.3785 6.41667 11.9164 6.41667C13.4543 6.41667 14.7009 7.66335 14.7009 9.2012Z"
-                      stroke="#5F6D7E"
-                      stroke-width="1.67"
+                      stroke={dark ? "#fff" : "#5F6D7E"}
+                      strokeWidth="1.67"
                     />
                   </svg>
                 </div>
-                <a href="#">Teams</a>
+                <a className={`${dark ? "text-white" : "text-dark"}`} href="#">
+                  Teams
+                </a>
               </div>
             </div>
           </div>
         </div>
         <div className="canvas__bottom">
-    
-            <SubscriptionPlan />
-         
+          <SubscriptionPlan
+          bgcolor={dark ? "#1C2534" : "#FFFFFF"}
+          textcolor={dark ? "#FFFFFF" : "#437EF7"}
+         border={dark ? "1px solid #252D3C" : "1px solid #EAEBF0"}
+          dark={dark} />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
-function SubscriptionPlan() {
+function SubscriptionPlan({dark,bgcolor}) {
   return (
-    <div className="canvas-list__bottom d-inline-flex flex-column gap-1 ">
-      <div className="d-flex align-items-center justify-content-between ">
-        <div className="d-flex align-items-start gap-2">
+    
+    <div
+    
+      className={`canvas-list__bottom align-items-center justify-content-between gap-1`}
+      style={{ width: 250}}
+     
+    >
+      <div
+        className="d-flex  align-items-start justify-content-between "
+        style={{ paddingInline: 20 }}
+      >
+        <div className="d-flex gap-2 align-items-start">
           <img src="./img/brianAvatar.svg" width={22} height={22} />
-          <p>Brian Ford</p>
+          <p className={`${dark ? "text-white" : "text-dark"}`} >Brian Ford</p>
         </div>
         <button type="button" className="border border-0 bg-transparent">
-          <img src="./img/dots menu.svg" alt="" />
+          <img src="./img/dots menu.svg" alt=""  className={`${dark ? "dark-mode-img" : ""}`} />
         </button>
       </div>
-      <div className="card px-3 pb-3">
+      <div className="card p-2" style={{ backgroundColor: bgcolor}}>
         <div className="card__top d-flex justify-content-between ">
-          <img src="./img/ProgressCircle.svg" alt="" />
+          <img src="./img/ProgressCircle.svg"  alt=""  />
           <button
             type="button"
             className="btn-close"
             aria-label="Close"
           ></button>
         </div>
-        <h5 className="mt-2 mb-1">Subscription Plan</h5>
-        <p className="card-text">
-          Your Subscription plan will expire soon please upgrade!
-        </p>
-        <a className="upgrade mt-3 align-self-start" href="#">
-          Upgrade
-        </a>
+        <div className={`card  p-0`} style={{ backgroundColor: bgcolor}} >
+          <div className="card__top p-0 "  >
+            <h5 className="mt-2 mb-1">Subscription Plan</h5>
+            <p className={`${dark ? "text-white" : "text-dark"} `} >
+              Your Subscription plan will expire soon please upgrade!
+            </p>
+            <a className={`upgrade mt-3 align-self-start ${dark ? "text-white" : "text-dark"} `} href="#">
+              Upgrade
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -515,7 +576,11 @@ function Navbar({ dark }) {
     <>
       <div className="d-flex justify-content-between  align-items-start ">
         <div className="d-flex d-md-none " style={{ marginBottom: 20 }}>
-          <img src="./img/Lookscout.svg" alt="" />
+          <img
+            src="./img/Lookscout.svg"
+            className={`${dark ? "dark-mode-img" : ""}`}
+            alt=""
+          />
         </div>
         <div className="d-flex d-md-none">
           <img src="./img/ham-menu.svg" alt="" />
@@ -591,38 +656,45 @@ function Header({ dark }) {
   );
 }
 
-function Cards({ dark }) {
+
+function Cards({ dark, border }) {
   return (
     <>
       <div className=" d-flex flex-wrap " style={{ gap: 20 }}>
         <div className="flex-fill">
           <Card
+            dark={dark}
             title={"Revenue"}
             price={"$390"}
             img={"./img/newChart.svg"}
             status={"New"}
-            bgcolor={dark ? "#5390F8" : "#F5FAFF"}
+            bgcolor={dark ? "#1C2534" : "#FFFFFF"}
             textcolor={dark ? "#FFFFFF" : "#437EF7"}
+            border={dark ? "1px solid #252D3C" : "1px solid #EAEBF0"}
           />
         </div>
         <div className="flex-fill">
           <Card
+            dark={dark}
             title={"Expenses"}
             price={"$680"}
             img={"./img/globalChart.svg"}
             status={"Global"}
             bgcolor={dark ? "#F04438" : "#FFF2F0"}
             textcolor={dark ? "#FFF2F0" : "#E2341D"}
+            border={dark ? "1px solid #252D3C" : "1px solid #EAEBF0"}
           />
         </div>
-        <div className="flex-fill">
+        <div className={`flex-fill ${dark ? "borderDark" : "borderLight"}`}>
           <Card
+            dark={dark}
             title={"Expenses"}
             price={"$680"}
             img={"./img/intuitiveChart.svg"}
             status={"Intuitive"}
             bgcolor={dark ? "#5DC264" : "#F0FAF0"}
             textcolor={dark ? "#F0FAF0" : "#2D8A39"}
+            border={dark ? "1px solid #252D3C" : "1px solid #EAEBF0"}
           />
         </div>
       </div>
@@ -630,16 +702,24 @@ function Cards({ dark }) {
   );
 }
 
-function Card({ title, price, img, status, bgcolor, textcolor }) {
+function Card({ title, price, img, status, bgcolor, textcolor, dark }) {
   return (
     <>
-      <div className="card-general " style={{ padding: 16 }}>
-        <div className="cards__item py-3 d-flex justify-content-between">
-          <h3>{title}</h3>
-        </div>
-        <div>
+      <div
+        className={`card-general ${dark ? "text-white" : "text-dark"}`}
+        style={{ padding: 16 }}
+      >
+        <div className="d-flex justify-content-between">
+          <div className="cards__item py-3 d-flex justify-content-between">
+            <h3>{title}</h3>
+          </div>
+
           <button className="border border-0 bg-transparent">
-            <img src="./img/dots menu.svg" alt="dotsMenu" />
+            <img
+              src="./img/dots menu.svg"
+              className={`${dark ? "dark-mode-img" : ""}`}
+              alt="dotsMenu"
+            />
           </button>
         </div>
 
@@ -710,15 +790,22 @@ function LookscoutTeam({ dark }) {
     <>
       <div className="d-flex flex-column">
         <div className="team-list__title px-4 py-3 d-flex justify-content-between">
-          <h3>Lookscout Team</h3>
+          <h3 className={`${dark ? "text-white" : "text-dark"}`}>
+            Lookscout Team
+          </h3>
           <div>
             <button className="border border-0 bg-transparent">
-              <img src="./img/dots menu.svg" alt="" />
+              <img
+                src="./img/dots menu.svg"
+                className={`${dark ? "dark-mode-img" : ""}`}
+                alt=""
+              />
             </button>
           </div>
         </div>
         <div className="team-list px-4 ">
           <LookscoutTeamUser
+            dark={dark}
             avatar={"./img/latoyaAvatar.svg"}
             name={"Latoya Langosh"}
             role={"Dynamic"}
@@ -728,6 +815,7 @@ function LookscoutTeam({ dark }) {
           />
 
           <LookscoutTeamUser
+            dark={dark}
             avatar={"./img/abelAvatar.svg"}
             name={"Abel Mohr"}
             role={"Dynamic"}
@@ -737,6 +825,7 @@ function LookscoutTeam({ dark }) {
           />
 
           <LookscoutTeamUser
+            dark={dark}
             avatar={"./img/shariAvatar.svg"}
             name={"Shari Stamm"}
             role={"Chief"}
@@ -746,6 +835,7 @@ function LookscoutTeam({ dark }) {
           />
 
           <LookscoutTeamUser
+            dark={dark}
             avatar={"./img/earlAvatar.svg"}
             name={"Earl Johnson"}
             role={"National"}
@@ -755,6 +845,7 @@ function LookscoutTeam({ dark }) {
           />
 
           <LookscoutTeamUser
+            dark={dark}
             avatar={"./img/erickAvatar.svg"}
             name={"Erick Champlin"}
             role={"Central"}
@@ -772,7 +863,16 @@ function LookscoutTeam({ dark }) {
   );
 }
 
-function LookscoutTeamUser({ avatar, name, role, status, bgcolor, textcolor }) {
+function LookscoutTeamUser({
+  avatar,
+  name,
+  role,
+  status,
+  bgcolor,
+  textcolor,
+  dark,
+  borderColor,
+}) {
   return (
     <>
       <div
@@ -781,7 +881,7 @@ function LookscoutTeamUser({ avatar, name, role, status, bgcolor, textcolor }) {
       >
         <div className="d-flex align-items-center" style={{ gap: 10 }}>
           <img src={avatar} alt="" />
-          <div>
+          <div className={`${dark ? "text-white" : "text-dark"}`}>
             <h6>{name}</h6>
             <p>{role}</p>
           </div>
@@ -790,56 +890,71 @@ function LookscoutTeamUser({ avatar, name, role, status, bgcolor, textcolor }) {
           <span
             className="badge px-2"
             style={{
+              borderColor: borderColor,
               backgroundColor: bgcolor,
               color: textcolor,
-              paddingBlock: 2,
+              padding: 6,
             }}
           >
             {status}
           </span>
-          <img src="./img/sagOkicon.svg" />
+          <img
+            src="./img/sagOkicon.svg"
+            className={`${dark ? "dark-mode-img" : ""}`}
+          />
         </div>
       </div>
     </>
   );
 }
 
-function UpdatedMaterials() {
+function UpdatedMaterials({ dark }) {
   return (
     <>
       <div className="d-flex flex-column">
         <div className="file-upload-list__title px-4 py-3 d-flex justify-content-between align-items-center">
-          <h3>Updated Materials</h3>
+          <h3 className={`${dark ? "text-white" : "text-dark"}`}>
+            Updated Materials
+          </h3>
           <button className="border border-0 bg-transparent">
-            <img src="./img/dots menu.svg" className="svg-icon" alt="" />
+            <img
+              src="./img/dots menu.svg"
+              className={`${dark ? "dark-mode-img" : ""}`}
+              alt=""
+            />
           </button>
         </div>
         <div className="file-upload-list px-4 border-top-bottom">
           <UpdatedMaterialsDoc
+            dark={dark}
             img={"./img/pdf.svg"}
             name={"Lookscout Resources"}
             byte={"80.69 mb"}
             icon={"./img/download.svg"}
           />
           <UpdatedMaterialsDoc
+            dark={dark}
             img={"./img/mp4.svg"}
             name={"Lookscout Updates"}
             byte={"320.32 mb"}
             icon={"./img/download.svg"}
           />
           <UpdatedMaterialsDoc
+            dark={dark}
             img={"./img/pdf.svg"}
             name={"Lookscout Guides"}
             byte={"320.32 mb"}
             icon={"./img/placeholder.svg"}
           />
           <UpdatedMaterialsDoc
+            dark={dark}
             img={"./img/zip.svg"}
             name={"Lookscout Design System"}
             byte={"320.32 mb"}
             icon={"./img/download.svg"}
           />
           <UpdatedMaterialsDoc
+            dark={dark}
             img={"./img/mp4.svg"}
             name={"Lookscout Guides"}
             byte={"125.05 mb"}
@@ -855,20 +970,25 @@ function UpdatedMaterials() {
   );
 }
 
-function UpdatedMaterialsDoc({ img, name, byte, icon }) {
+function UpdatedMaterialsDoc({ img, name, byte, icon, dark }) {
   return (
     <div
       className="file-upload-list__item py-3 d-flex align-items-center justify-content-between border-bottom"
       style={{ paddingInline: 20 }}
     >
-      <div className="d-flex align-items-center " style={{ gap: 10 }}>
+      <div
+        className={`d-flex align-items-center  ${
+          dark ? "text-white" : "text-dark"
+        }`}
+        style={{ gap: 10 }}
+      >
         <img src={img} alt="" />
         <div>
           <h6>{name}</h6>
           <p>{byte}</p>
         </div>
       </div>
-      <img src={icon} alt="" />
+      <img src={icon} className={`${dark ? "dark-mode-img" : ""}`} alt="" />
     </div>
   );
 }
@@ -877,7 +997,9 @@ function RecentTransactions({ dark }) {
   return (
     <>
       <div className="recent-transactions__title py-3 px-4">
-        <p>Recent Transactions</p>
+        <p className={`${dark ? "text-white" : "text-dark"}`}>
+          Recent Transactions
+        </p>
       </div>
 
       <RecentTransactionsApps
@@ -891,6 +1013,7 @@ function RecentTransactions({ dark }) {
       />
 
       <RecentTransactionsApps
+        dark={dark}
         img={"./img/sketch.svg"}
         name={"Sketch Team"}
         date={"Jun 15 2022"}
@@ -899,6 +1022,7 @@ function RecentTransactions({ dark }) {
         textcolor={dark ? "#FFF2F0" : "#E2341D"}
       />
       <RecentTransactionsApps
+        dark={dark}
         img={"./img/gitlab.svg"}
         name={"Gitlab Team"}
         date={"Jan 15 2022"}
@@ -907,6 +1031,7 @@ function RecentTransactions({ dark }) {
         textcolor={dark ? "#F0FAF0" : "#2D8A39"}
       />
       <RecentTransactionsApps
+        dark={dark}
         img={"./img/clickup.svg"}
         name={"Clickup Team"}
         date={"Jan 15 2022"}
@@ -915,6 +1040,7 @@ function RecentTransactions({ dark }) {
         textcolor={dark ? "#FFF2F0" : "#E2341D"}
       />
       <RecentTransactionsApps
+        dark={dark}
         img={"./img/deliverooo.svg"}
         name={"Deliverooo Team"}
         date={"Jan 15 2022"}
@@ -938,6 +1064,7 @@ function RecentTransactionsApps({
   status,
   bgcolor,
   textcolor,
+  dark,
 }) {
   return (
     <>
@@ -945,7 +1072,11 @@ function RecentTransactionsApps({
         className="recent-transactions-list__item py-3 d-flex align-items-center justify-content-between"
         style={{ padding: 16 }}
       >
-        <div className="d-flex align-items-center gap-3">
+        <div
+          className={`d-flex align-items-center gap-3  ${
+            dark ? "text-white" : "text-dark"
+          }`}
+        >
           <img src={img} />
           <div className="col-6 p-0">
             <div className="container p-0 ">
@@ -962,7 +1093,7 @@ function RecentTransactionsApps({
             style={{
               backgroundColor: bgcolor,
               color: textcolor,
-              paddingBlock: 2,
+              padding: 6,
               border: 0,
             }}
           >
