@@ -64,7 +64,7 @@ export default function App() {
       data-bs-theme={dark ? "#151B28" : "#FFFFF"}
     >
       <div className="main d-flex">
-        <Nav handleToggle={handleToggle} setDark={setDark} dark={dark} />
+        <Nav handleToggle={handleToggle} handleclosediv={handleclosediv} setDark={setDark} dark={dark} />
         <div className="mainCanvas">
         <SideNav
           dark={dark}
@@ -140,7 +140,7 @@ function ApexCard({ dark }) {
     </>
   );
 }
-function Nav({ handleToggle, dark, setDark }) {
+function Nav({ handleToggle, dark, setDark,handleclosediv }) {
   return (
     <div
       className="sidebar_all d-none d-lg-block border-end"
@@ -215,7 +215,8 @@ function Nav({ handleToggle, dark, setDark }) {
               </defs>
             </svg>
           </button>
-          <button className="sidebar-list__item  border-0 bg-transparent ">
+          <button className="sidebar-list__item  border-0 bg-transparent "
+          onClick={handleToggle}>
             <svg
               width="24"
               height="24"
@@ -230,7 +231,8 @@ function Nav({ handleToggle, dark, setDark }) {
               />
             </svg>
           </button>
-          <button className="sidebar-list__item border-0 bg-transparent">
+          <button className="sidebar-list__item border-0 bg-transparent"
+          onClick={handleToggle}>
             <svg
               width="24"
               height="24"
@@ -306,7 +308,7 @@ function Nav({ handleToggle, dark, setDark }) {
               />
             </svg>
           </button>
-          <button className="sidebar-list__item border-0 bg-transparent">
+          <button className="sidebar-list__item border-0 bg-transparent" onClick={handleclosediv}>
             <svg
               width="20"
               height="22"
