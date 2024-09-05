@@ -3,6 +3,7 @@ import "./App.css";
 import ReactApexChart from "react-apexcharts";
 
 export default function App() {
+  const [isOpen, setIsOpen] = useState(false);
   const [dark, setDark] = useState(
     () => localStorage.getItem("dark") === "true"
   );
@@ -28,21 +29,35 @@ export default function App() {
     };
   }, []);
 
+
+  function handleToggle() {
+    if (isOpen) {
+      handleclosediv(); // Kapama fonksiyonunu çağır
+    } else {
+      handleopenDiv(); // Açma fonksiyonunu çağır
+    }
+    setIsOpen(!isOpen); // Butonun açık/kapalı durumunu tersine çevir
+  };
+
   function handleopenDiv() {
     let canvas = document.querySelector(".canvas_all");
     let content = document.querySelector(".screen_side");
     canvas.style.width = "250px";
     canvas.style.display = "flex";
-    content.style.width = "calc(100% - 273px)";
+    content.style.width = "calc(100% -273px )";
     canvas.style.transition = "all .3s";
   }
   function handleclosediv() {
     let canvas = document.querySelector(".canvas_all");
-    let content = document.querySelector("screen_side");
-    canvas.style.width = "0px";
+    let content = document.querySelector(".screen_side");
     canvas.style.display = "none";
-    content.style.width = "calc(100% -1px)";
-    canvas.style.transition = "all .3s";
+    content.style.width = "calc(100%)";
+    canvas.style.transition = "all .4s";
+    canvas.style.width = "0px"; 
+    setTimeout(() => {
+      canvas.style.display = "none";
+    }, 400);
+    
   }
 
   return (
@@ -50,15 +65,13 @@ export default function App() {
       className={`main ${dark ? "bg-dark" : "bg-light"}`}
       data-bs-theme={dark ? "dark" : "light"}
     >
-      <div className="d-flex">
-        <Nav handleopenDiv={handleopenDiv} setDark={setDark} dark={dark} />
-
+      <div className="main d-flex">
+        <Nav handleToggle={handleToggle} setDark={setDark} dark={dark} />
         <SideNav
           dark={dark}
           handleclosediv={handleclosediv}
-          handleopenDiv={handleopenDiv}
+          handleToggle={handleToggle}
         />
-
         <div className="screen_side flex-grow-1">
           <div className=" p-3">
             <Navbar dark={dark} />
@@ -126,7 +139,7 @@ function ApexCard({ dark }) {
     </>
   );
 }
-function Nav({ handleopenDiv, dark, setDark }) {
+function Nav({ handleToggle, dark, setDark }) {
   return (
     <div
       className="sidebar_all d-none d-lg-block border-end"
@@ -177,8 +190,8 @@ function Nav({ handleopenDiv, dark, setDark }) {
             </svg>
           </button>
           <button
-            className="sidebar-list__item border-0 bg-transparent active"
-            onClick={handleopenDiv}
+            className="sidebar-list__item border-0 bg-transparent active "
+            onClick={handleToggle}
             
           >
             <svg
@@ -1081,7 +1094,7 @@ function RecentTransactionsApps({
         >
           <img src={img} />
           <div className="col-6 p-0">
-            <div className="container p-0 ">
+            <div className="p-0 ">
               <div className="row ">
                 <h6 className="m-0">{name}</h6>
                 <p className="m-0">{date}</p>

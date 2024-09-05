@@ -64,6 +64,7 @@ body {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
 }
+
 .nav {
   --bs-breadcrumb-divider: ">";
 }
@@ -242,7 +243,7 @@ h3 {
   .canvas-list__item:hover {
     border-left: 3px solid #fff;
     background-color: #f3f9fe;
-    background-color: #454040; /* Dark modda hover rengi */
+    background-color: #333B48; /* Dark modda hover rengi */
     color: #fff;
   }
 
@@ -251,7 +252,8 @@ h3 {
   }
 
   .sidebar-list__item:hover svg  {
-    background-color:#454040;
+    
+    background-color:#333B48;
   }
   .sidebar-list__item:hover svg path {
     padding: 12px;
@@ -261,4 +263,29 @@ h3 {
     padding: 12px;
   
   }
+
+  .chart {
+    border: 1px solid #252D3C;
+  }
+
+  .card-general {
+    border: 1px solid #252D3C;
+    background-color: #1C2534;
+  }
+
+  .main {
+    background-color: #151B28;
+  }
+
+  .canvas {
+    background-color: #1C2534;
+    border-color: 1px solid #252D3C;
+  }
+  .sidebar_all {
+    background-color: #1C2534;
+    border: 1px solid #252D3C;
+  }
+
+ 
 }
+
