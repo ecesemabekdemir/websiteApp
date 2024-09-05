@@ -139,6 +139,13 @@ body.dark-mode {
   height: 100vh;
 }
 
+.mainCanvas {
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 100vh;
+}
+
 .canvas_all {
   height: 100vh;
 }
@@ -199,6 +206,9 @@ h6 {
   letter-spacing: -0.10000000149011612px;
   text-align: left;
 }
+.upgrade {
+  color: #437EF7;
+}
 
 .card {
   box-shadow: 0px 1px 2px 0px #1018280a;
@@ -209,7 +219,8 @@ h6 {
   margin-top: 32px;
 }
 
-.canvas_all {
+.mainCanvas{
+  width: 273px;
   top: 0;
   left: 0;
   z-index: 2;
@@ -239,11 +250,11 @@ h3 {
   filter: brightness(0) invert(1);
 }
 
-@media (prefers-color-scheme: dark) {
+.bg-dark {
   .canvas-list__item:hover {
     border-left: 3px solid #fff;
     background-color: #f3f9fe;
-    background-color: #333B48; /* Dark modda hover rengi */
+    background-color: #333b48; /* Dark modda hover rengi */
     color: #fff;
   }
 
@@ -251,9 +262,8 @@ h3 {
     stroke: #fff;
   }
 
-  .sidebar-list__item:hover svg  {
-    
-    background-color:#333B48;
+  .sidebar-list__item:hover svg {
+    background-color: #333b48;
   }
   .sidebar-list__item:hover svg path {
     padding: 12px;
@@ -261,31 +271,49 @@ h3 {
   }
   .sidebar-list__item svg path {
     padding: 12px;
-  
   }
+}
 
+.bg-dark {
   .chart {
-    border: 1px solid #252D3C;
+    border: 1px solid #252d3c;
   }
 
   .card-general {
-    border: 1px solid #252D3C;
-    background-color: #1C2534;
+    border: 1px solid #252d3c;
+    background-color: #1c2534;
   }
 
   .main {
-    background-color: #151B28;
+    background-color: #151b28;
   }
 
-  .canvas {
-    background-color: #1C2534;
-    border-color: 1px solid #252D3C;
+  .mainCanvas {
+    background-color: #1c2534;
+    border-color: 1px solid #252d3c;
   }
+
+
+
   .sidebar_all {
-    background-color: #1C2534;
-    border: 1px solid #252D3C;
+    background-color: #1c2534;
+    border: 1px solid #252d3c;
   }
 
- 
+  .canvas-list__input input {
+    background-color: #252d3c;
+    border: 1px solid #252d3c;
+    color: #a5acba;
+  }
+  .canvas-list__input ::placeholder {
+    color: #a5acba;
+  }
+
+  .card__Box  {
+    background-color: #252d3c;
+  }
 }
 
+.text-gray {
+  color: #a5acba;
+}
