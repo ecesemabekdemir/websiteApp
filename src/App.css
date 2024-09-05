@@ -208,9 +208,6 @@ h6 {
   margin-top: 32px;
 }
 
-
-
-
 .canvas_all {
   top: 0;
   left: 0;
@@ -237,13 +234,31 @@ h3 {
   stroke: #437ef7;
 }
 
-
 .dark-mode-img {
   filter: brightness(0) invert(1);
 }
 
+@media (prefers-color-scheme: dark) {
+  .canvas-list__item:hover {
+    border-left: 3px solid #fff;
+    background-color: #f3f9fe;
+    background-color: #454040; /* Dark modda hover rengi */
+    color: #fff;
+  }
 
-.dark-mode.canvas-list__item:hover {
-  background-color: #454040; /* Dark modda hover rengi */
+  .canvas-list__item:hover svg path {
+    stroke: #fff;
+  }
+
+  .sidebar-list__item:hover svg  {
+    background-color:#454040;
+  }
+  .sidebar-list__item:hover svg path {
+    padding: 12px;
+    stroke: #fff;
+  }
+  .sidebar-list__item svg path {
+    padding: 12px;
+  
+  }
 }
-
