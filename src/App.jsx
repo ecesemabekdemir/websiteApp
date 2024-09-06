@@ -65,7 +65,7 @@ export default function App() {
     >
       <div className="main d-flex">
         <Nav handleToggle={handleToggle} handleclosediv={handleclosediv} setDark={setDark} dark={dark} />
-        <div className="mainCanvas">
+        <div className="mainCanvas d-none d-xl-block">
         <SideNav
           dark={dark}
           handleclosediv={handleclosediv}
